@@ -1,12 +1,17 @@
-import products from '../db/products';
 import React, { useState } from 'react';
 
-function Product({ product }) {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]); // Default to the first color
+function Product({ product, selectedColorIndex }) {
+  const [selectedColor, setSelectedColor] = useState(
+    product.colors[selectedColorIndex]
+  );
 
   const handleColorChange = (event) => {
     setSelectedColor(event.target.value);
   };
+
+  // Update the product based on the selected color index
+  // const productColor = product.colors[selectedColorIndex];
+  const productImageUrl = product.imageUrl[selectedColorIndex]; 
 
   const handleAddToCart = () => {
     // Implement the logic to add the selected product to the cart
@@ -15,7 +20,7 @@ function Product({ product }) {
 
   return (
     <div className="product">
-      <img src={product.imageUrl} alt={product.name} />
+      <img src={productImageUrl} alt={product.name} />
       <h2>{product.name}</h2>
       <p>{product.description}</p>
       <p>Price: ${product.price}</p>
@@ -35,3 +40,4 @@ function Product({ product }) {
 }
 
 export default Product;
+

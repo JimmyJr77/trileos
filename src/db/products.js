@@ -2,7 +2,7 @@ const products = [
     {
       id: 1,
       name: "Casual Dress Slacks",
-      description: "Dress to Kill. Our dress slacks are DNA and stain resistent. They are flexible enought to scale a fence, but tough enought to handle the punishment.",
+      description: "Dress to Kill. Our dress slacks are DNA and stain resistent. They are flexible enought to get you into trouble, but tough enought to handle the punishment.",
       price: 59.99,
       colors: ["Navy", "Khaki", "Gray", "Black"],
       imageUrl: ["../assets/images/pants-navy.jpg", "../assets/images/pants-khaki.jpg", "../assets/images/pants-gray.jpg", "../assets/images/pants-black.jpg"],
@@ -29,7 +29,9 @@ const products = [
       description: "The only tshirt mom will let you wear to formal events. The only tshirt you ever want to wear. Why isn't it flashy? Because in this shirt, you're the star.",
       price: 29.99,
       colors: ["Red", "Orange", "Yellow", "Blue", "Green", "White", "Grey", "Black"],
-      imageUrl: ["../assets/images/tshirt-red", "../assets/images/tshirt-orange", "../assets/images/tshirt-yellow", "../assets/images/tshirt-blue", "../assets/images/tshirt-green", "../assets/images/tshirt-white", "../assets/images/tshirt-grey", "../assets/images/tshirt-black"]
+      imageUrl: ["../assets/images/tshirt-red.jpg", "../assets/images/tshirt-orange.jpg", "../assets/images/tshirt-yellow.jpg", "../assets/images/tshirt-blue.jpg", "../assets/images/tshirt-green.jpg", "../assets/images/tshirt-white.jpg", "../assets/images/tshirt-grey.jpg", "../assets/images/tshirt-black.jpg"]
     }
   ];
+
+  export default products;
   

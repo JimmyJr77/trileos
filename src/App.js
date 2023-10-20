@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './App.css'; // Import your CSS file or styles here
+import ProductSpinner from './components/ProductSpinner';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>Online Clothing Store</h1>
+        {/* Add navigation links or components here */}
       </header>
+      <main>
+        {/* Render the ProductSpinner component to display clothing */}
+        <ProductSpinner />
+        {/* You can add more components/pages as needed */}
+      </main>
+      <footer>
+        {/* Add footer content here */}
+      </footer>
     </div>
   );
 }

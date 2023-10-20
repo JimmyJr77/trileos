@@ -1,35 +1,35 @@
 const products = [
     {
       id: 1,
-      name: "Pants",
-      description: "Comfortable and presentable pants",
+      name: "Casual Dress Slacks",
+      description: "Dress to Kill. Our dress slacks are DNA and stain resistent. They are flexible enought to scale a fence, but tough enought to handle the punishment.",
       price: 59.99,
-      colors: ["Blue", "Black", "Gray"],
-      imageUrl: ["../assets/images/pants-blue.jpg", "../assets/images/pants-black.jpg", "../assets/images/pants-gray.jpg"],
+      colors: ["Navy", "Khaki", "Gray", "Black"],
+      imageUrl: ["../assets/images/pants-navy.jpg", "../assets/images/pants-khaki.jpg", "../assets/images/pants-gray.jpg", "../assets/images/pants-black.jpg"],
     },
     {
       id: 2,
-      name: "Shorts",
-      description: "Stylish shorts for warm weather",
+      name: "Casual Dress Shorts",
+      description: "Life is Shorts, Play Hard. These shorts are so comfortable and stylish you might not want to take them off. And given the anti-mocrobial stain resistant fabric, you don't have to.", 
       price: 39.99,
-      colors: ["Khaki", "Navy", "Brown"],
-      imageUrl: ["../assets/images/shorts-khaki.jpg", "../assets/images/shorts-navy.jpg", "../assets/images/shorts-brown.jpg"]
+      colors: ["Navy", "Red", "Khaki", "Brown"],
+      imageUrl: ["../assets/images/shorts-navy.jpg", "../assets/images/shorts-red.jpg", "../assets/images/shorts-khaki.jpg", "../assets/images/shorts-brown.jpg"]
     },
     {
       id: 3,
-      name: "Polo Shirt",
-      description: "Classic polo shirt with a modern twist",
-      price: 39.99,
-      colors: ["Red", "White", "Yellow", "Black"],
-      imageUrl: ["../assets/images/polo-red.jpg","../assets/images/polo-white.jpg", "../assets/images/polo-yellow.jpg", "../assets/images/polo-black.jpg"]
+      name: "Crested Polo Shirt",
+      description: "You're not pouting, your modeling a dramatically stoic expression. This polo looks so good your mother won't even realize you're not smiling for the family photo. You won't even realize it's a polo.",
+      price: 49.99,
+      colors: ["Red", "Orange", "Yellow", "Blue", "Green", "White", "Grey", "Black"],
+      imageUrl: ["../assets/images/polo-red.jpg", "../assets/images/polo-orange.jpg", "../assets/images/polo-yellow.jpg","../assets/images/polo-blue.jpg", "../assets/images/polo-green.jpg", "../assets/images/polo-white.jpg", "../assets/images/polo-grey.jpg", "../assets/images/polo-black.jpg"]
     },
     {
       id: 4,
-      name: "T-shirt (Design 1)",
-      description: "Comfortable t-shirt with a unique design",
-      price: 14.99,
-      colors: ["Blue", "Gray", "Yellow", "White"],
-      imageUrl: ["../assets/images/tshirt-blue", "../assets/images/tshirt-grey", "../assets/images/tshirt-yellow", "../assets/images/tshirt-white"]
+      name: "Crested T-shirt",
+      description: "The only tshirt mom will let you wear to formal events. The only tshirt you ever want to wear. Why isn't it flashy? Because in this shirt, you're the star.",
+      price: 29.99,
+      colors: ["Red", "Orange", "Yellow", "Blue", "Green", "White", "Grey", "Black"],
+      imageUrl: ["../assets/images/tshirt-red", "../assets/images/tshirt-orange", "../assets/images/tshirt-yellow", "../assets/images/tshirt-blue", "../assets/images/tshirt-green", "../assets/images/tshirt-white", "../assets/images/tshirt-grey", "../assets/images/tshirt-black"]
     }
   ];
   

@@ -2,7 +2,7 @@ const products = [
     {
       id: 1,
       name: "Casual Dress Slacks",
-      description: "Dress to Kill. Our dress slacks are DNA and stain resistent. They are flexible enought to get you into trouble, but tough enought to handle the punishment.",
+      description: "Dress to Kill. Our dress slacks are DNA and stain resistant. They are flexible enough to get you into trouble, but tough enough to handle the punishment.",
       price: 59.99,
       colors: ["Navy", "Khaki", "Gray", "Black"],
       imageUrl: ["../assets/images/pants-navy.jpg", "../assets/images/pants-khaki.jpg", "../assets/images/pants-gray.jpg", "../assets/images/pants-black.jpg"],
@@ -10,7 +10,7 @@ const products = [
     {
       id: 2,
       name: "Casual Dress Shorts",
-      description: "Life is Shorts, Play Hard. These shorts are so comfortable and stylish you might not want to take them off. And given the anti-mocrobial stain resistant fabric, you don't have to.", 
+      description: "Life is Shorts, Play Hard. These shorts are so comfortable and stylish you might not want to take them off. And given the antimocrobial stain resistant fabric, you don't have to.", 
       price: 39.99,
       colors: ["Navy", "Red", "Khaki", "Brown"],
       imageUrl: ["../assets/images/shorts-navy.jpg", "../assets/images/shorts-red.jpg", "../assets/images/shorts-khaki.jpg", "../assets/images/shorts-brown.jpg"]
@@ -18,7 +18,7 @@ const products = [
     {
       id: 3,
       name: "Crested Polo Shirt",
-      description: "You're not pouting, your modeling a dramatically stoic expression. This polo looks so good your mother won't even realize you're not smiling for the family photo. You won't even realize it's a polo.",
+      description: "You're not pouting, you're modeling a dramatically stoic expression. This polo looks so good your mother won't even realize you're not smiling for the family photo. You won't even realize it's a polo.",
       price: 49.99,
       colors: ["Red", "Orange", "Yellow", "Blue", "Green", "White", "Grey", "Black"],
       imageUrl: ["../assets/images/polo-red.jpg", "../assets/images/polo-orange.jpg", "../assets/images/polo-yellow.jpg","../assets/images/polo-blue.jpg", "../assets/images/polo-green.jpg", "../assets/images/polo-white.jpg", "../assets/images/polo-grey.jpg", "../assets/images/polo-black.jpg"]

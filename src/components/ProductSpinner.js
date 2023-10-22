@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Product from './Product';
+import Product from './Apparel';
 import products from '../db/products';
 
 function ProductSpinner() {

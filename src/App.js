@@ -1,24 +1,33 @@
 import React from 'react';
-import './App.css'; // Import your CSS file or styles here
-import ProductSpinner from './components/ProductSpinner';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from "./components/Header";
+import Home from './components/Home';
+import Footer from './components/Footer';
+import GlobalStyles from './styles/GlobalStyles';
+import Apparel from './components/Apparel';
+// import Cart from './components/Cart';
 
 function App() {
   return (
     <div className="App">
-      <header>
-        <h1>Online Clothing Store</h1>
-        {/* Add navigation links or components here */}
-      </header>
+      <Header />
       <main>
-        {/* Render the ProductSpinner component to display clothing */}
-        <ProductSpinner />
-        {/* You can add more components/pages as needed */}
+        <Router>
+          <div>
+              <GlobalStyles />
+              <Routes>
+                  <Route path="/" element={<Home />} index />
+                  <Route path="/apparel" element={<Apparel />} />
+                  {/* <Route path="/cart" element={<Cart />} /> */}
+              </Routes>
+          </div>
+        </Router>
       </main>
-      <footer>
-        {/* Add footer content here */}
-      </footer>
+      <Footer />
     </div>
   );
 }
 
 export default App;
+

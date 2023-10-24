@@ -1,6 +1,7 @@
 import React from 'react';
 import { HeaderContainer, Logo, Nav, Title } from '../styles/HeaderStyles';
 import crest from '../assets/images/3lions_crest.png';
+import { Link } from 'react-router-dom';
 
 function Header() {
     return (
@@ -10,9 +11,9 @@ function Header() {
                 <Title>TRILEOS APPAREL</Title>
             </div>
             <Nav>
-                <li>Home</li>
-                <li>Apparel</li>
-                <li>Cart</li>
+                <Link to="/">Home</Link>
+                <Link to="/apparel">Apparel</Link>
+                <Link to="/cart">Cart</Link>
             </Nav>
         </HeaderContainer>
     );

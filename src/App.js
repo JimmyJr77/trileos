@@ -6,28 +6,31 @@ import Home from './components/Home';
 import Footer from './components/Footer';
 import GlobalStyles from './styles/GlobalStyles';
 import Apparel from './components/Apparel';
+import Cart from './components/Cart';
 // import Cart from './components/Cart';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <main>
-        <Router>
+      <Router>
+        <Header />
+        <main>
           <div>
               <GlobalStyles />
               <Routes>
                   <Route path="/" element={<Home />} index />
                   <Route path="/apparel" element={<Apparel />} />
-                  {/* <Route path="/cart" element={<Cart />} /> */}
+                  <Route path="/cart" element={<Cart />} />
               </Routes>
           </div>
-        </Router>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </Router>
     </div>
   );
 }
+  
+
 
 export default App;
 

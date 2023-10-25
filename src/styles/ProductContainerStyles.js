@@ -5,11 +5,20 @@ export const ProductContainerStyled = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid darkgrey;
   padding: 20px;
+
+  @media (max-width: 900px) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 `;
 
 export const ProductSelectionContainer = styled.div`
   flex: 1;
   padding: 20px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 export const MainImageContainer = styled.div`
@@ -20,24 +29,28 @@ export const MainImageContainer = styled.div`
   padding: 20px;
   justify-content: flex-start;
   margin-top: 70px;
+
+  @media (max-width: 900px) {
+    margin-top: 20px;
+  }
 `;
 
 export const BoxContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 export const SizeBox = styled.div`
-    font-size: 10px;
-    width: 35px;
-    height: 15px;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${props => (props.selected ? "lightgrey" : "white")};  // <-- Added this line
-    cursor: pointer;  // <-- Added for better UX
+  font-size: 10px;
+  width: 35px;
+  height: 15px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => (props.selected ? "lightgrey" : "white")};
+  cursor: pointer;
 `;
 
 export const ColorBox = styled.div`
@@ -50,14 +63,8 @@ export const ColorBox = styled.div`
   box-shadow: ${props => (props.selected ? "0 0 2px 2px black" : "none")};
 `;
 
-
-export const Image = styled.img`
-  width: 70%;
-  height: auto;
-`;
-
 export const CartButton = styled.button`
-  background-color: #28a745; 
+  background-color: #28a745;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -76,8 +83,8 @@ export const CartButton = styled.button`
 export const ActionContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 10px; // Give some space between the image and action buttons
-  margin-bottom: 20px; // Extra space to separate from other elements, if any, below
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 export const QuantityBox = styled.input.attrs(props => ({
@@ -92,12 +99,12 @@ export const QuantityBox = styled.input.attrs(props => ({
 
 export const ImageSpinner = styled.div`
   position: relative;
-  width: 200px; // Define a fixed width for square
-  height: 200px; // Define a fixed height for square
+  width: 300px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px; // Adjusted space for a closer action button
+  margin-bottom: 10px;
 `;
 
 export const SpinnerButton = styled.button`
@@ -106,32 +113,27 @@ export const SpinnerButton = styled.button`
   border: none;
   padding: 10px 15px;
   cursor: pointer;
-  position: absolute; // Keep them above the image
-  bottom: 10%;  // Position them near the bottom
-  transform: translateY(50%);  // Adjust for better positioning
-
+  position: absolute;
+  bottom: 10%;
+  transform: translateY(50%);
   &:hover {
     background: rgba(0, 0, 0, 0.7);
   }
-
-  // This style targets the previous (left) button 
   &:first-child {
     left: 10px;
-    z-index: 2;  // To ensure it's above the image
+    z-index: 2;
   }
-
-  // This style targets the next (right) button 
   &:last-child {
     right: 10px;
-    z-index: 2;  // To ensure it's above the image
+    z-index: 2;
   }
 `;
 
-
 export const SpinnerImage = styled.img`
-  max-width: 100%; 
-  max-height: 100%; 
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   display: ${props => (props.active ? 'block' : 'none')};
   transition: opacity 0.5s;
 `;
+

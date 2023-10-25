@@ -6,40 +6,10 @@ export const HomeContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     background-color: #000;
-    height: calc(100vh - 120px);  // Assuming header is 100px and footer is 20px
     padding: 2rem; 
 
     @media (max-width: 768px) {
         flex-direction: column;
-    }
-`;
-
-export const TextContainer = styled.div`
-    color: white; 
-
-    h1 {
-        font-size: 3rem; 
-        text-align: center;
-        color: yellow;
-        
-        span {
-            color: white;
-        }
-    }
-`;
-
-export const Image = styled.img`
-    width: auto;
-    height: 65vh;
-    margin-right: 2rem; 
-
-    @media (max-width: 768px) {
-        position: absolute;
-        z-index: -1;
-        opacity: 0.3;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-right: 0;
     }
 `;
 
@@ -58,18 +28,49 @@ export const ShopNowButton = styled(Link)`
     &:hover, &:active {
         background-color: yellow;
         color: black;
+        transform: scale(1.05);   // This will slightly enlarge the button on hover/active for better UX feedback
+    }
+`;
+
+export const TextContainer = styled.div`
+    color: white; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+        font-size: 3rem; 
+        text-align: center;
+        color: yellow;
+        
+        span {
+            color: white;
+        }
+    }
+
+    ${ShopNowButton} {
     }
 `;
 
 export const ImageContainer = styled.div`
     position: relative;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+`;
 
-    ${ShopNowButton} {
+export const Image = styled.img`
+    width: auto;
+    height: 65vh;
+    margin-right: 2rem; 
+
+    @media (max-width: 768px) {
         position: absolute;
-        bottom: 20px; 
-        left: 47%;
+        z-index: -1;
+        opacity: 0.3;
+        left: 50%;
         transform: translateX(-50%);
+        margin-right: 0;
     }
 `;

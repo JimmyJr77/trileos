@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import {
+  CartContainer,
+  CartTitle
+} from '../styles/CartStyles';
 
 const CheckoutForm = () => {
   const [item, setItem] = useState({
@@ -36,8 +40,8 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div>
-      <h2>Checkout Form</h2>
+    <CartContainer>
+      <CartTitle>Checkout Form</CartTitle>
       <div>
         <label>
           Product:
@@ -83,7 +87,7 @@ const CheckoutForm = () => {
         </label>
       </div>
       <button onClick={handleAddToCart}>Add to Cart</button>
-    </div>
+    </CartContainer>
   );
 };
 

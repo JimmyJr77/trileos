@@ -9,6 +9,9 @@ function Cart() {
     return (
         <CartContainer>
             <CartTitle>Shopping Cart</CartTitle>
+            <div className="cart">
+                
+            </div>
         </CartContainer>
     );
 }

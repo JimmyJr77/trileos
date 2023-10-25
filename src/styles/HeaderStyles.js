@@ -6,23 +6,36 @@ export const HeaderContainer = styled.div`
     align-items: center;
     border-bottom: 1px solid white;
     height: 100px;
-    padding: 0 20px;  // Added some padding
+    padding: 0 20px;
 
-    @media (max-width: 768px) {
+    @media (max-width: 800px) {
         flex-direction: column;
+        justify-content: left;
     }
 `;
 
 export const Logo = styled.img`
     width: auto;
     height: 140px;
-    margin-top: 60px;
+    position: absolute;    
+    top: 5px;  
+    left: 10px;
+    z-index: 1000; 
+
+    @media (max-width: 800px) {
+        height: 85px;
+    }
 `;
+
 
 export const Title = styled.h1`
     color: yellow;
-    margin-left: 25px;  // To provide a gap between the logo and the title
+    margin-left: 135px;
     font-size: 2.5em;
+
+    @media (max-width: 800px) {
+        margin-left: 65px;
+    }
 `;
 
 export const Nav = styled.ul`
@@ -30,6 +43,10 @@ export const Nav = styled.ul`
     margin-right: 20px;
     gap: 20px;
     list-style-type: none;
+
+    @media (max-width: 800px) {
+        margin-top: -20px;
+    }
 
     li {
         cursor: pointer;
@@ -39,8 +56,8 @@ export const Nav = styled.ul`
     }
 
     a {
-        text-decoration: none;  // no underline for links
-        color: inherit;  // inherit the white color
+        text-decoration: none;
+        color: inherit;
 
         &.active, &:hover, &:focus {
             color: yellow;

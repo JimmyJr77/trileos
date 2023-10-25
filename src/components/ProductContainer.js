@@ -45,22 +45,27 @@ function ProductContainer({ product }) {
             </SizeBox>
           ))}
         </BoxContainer>
-
+  
         
-          <h4>Colors</h4>
-            <BoxContainer>
-              {selectedProduct.colors.map((color, index) => (
-                <ColorBox
-                  key={index}
-                  color={color}
-                  selected={selectedColorIndex === index}
-                  onClick={() => setSelectedColorIndex(index)}
-                />
-              ))}
-            </BoxContainer>
-
+        <h4>Colors</h4>
+        <BoxContainer>
+          {selectedProduct.colors.map((color, index) => (
+            <ColorBox
+              key={index}
+              color={color}
+              selected={selectedColorIndex === index}
+              onClick={() => setSelectedColorIndex(index)}
+            />
+          ))}
+        </BoxContainer>
+        <h4>Quantity:</h4>
+        <ActionContainer>
+          <QuantityBox defaultValue="1" />
+          <CartButton>Add to Cart</CartButton>
+        </ActionContainer>
       </ProductSelectionContainer>
-        <MainImageContainer>
+  
+      <MainImageContainer>
         <ImageSpinner>
           <SpinnerButton onClick={prevImage}>❮</SpinnerButton>
           {selectedProduct.imageUrl.map((url, index) => (
@@ -71,17 +76,10 @@ function ProductContainer({ product }) {
                   active={index === activeImageIndex}
               />
           ))}
-    <SpinnerButton onClick={nextImage}>❯</SpinnerButton>
-</ImageSpinner>
-          <ActionContainer>
-            <label style={{ marginRight: '10px' }}>
-              Quantity:
-              <QuantityBox defaultValue="1" />
-            </label>
-            <CartButton>Add to Cart</CartButton>
-          </ActionContainer>
-        </MainImageContainer>
-      </ProductContainerStyled>
+          <SpinnerButton onClick={nextImage}>❯</SpinnerButton>
+        </ImageSpinner>
+      </MainImageContainer>
+    </ProductContainerStyled>
   );
 }
 

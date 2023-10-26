@@ -28,6 +28,17 @@ const typeDefs = gql`
     imageUrl: [String]
   }
 
+  input ProductInput {
+    _id: ID
+    name: String
+    description: String
+    price: Float
+    size: [String]
+    color: [String]
+    quantity: Int
+    imageUrl: [String]
+  }
+
   type Order {
     _id: ID
     purchaseDate: String
@@ -59,11 +70,11 @@ const typeDefs = gql`
   }
 
   # type Mutation {
-  #   addUser(email: String!, password: String!): Auth
-  #   createOrder(products: [ID]!): Order
+  #   addUser(email: String, password: String): Auth
+  #   createOrder(orderData: ProductInput ): Order
   #   deleteOrder(_id: ID): Order
   #   updateOrder(_id: ID!, quantity: Int!): Product
-  #   login(email: String!, password: String!): Auth
+  #   login(email: String, password: String): Auth
   # }
 `;
 

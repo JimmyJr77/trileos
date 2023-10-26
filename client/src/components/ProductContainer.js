@@ -13,6 +13,8 @@ import {
   CartButton,
   ActionContainer
 } from '../styles/ProductContainerStyles';
+import {CREATE_ORDER} from "../utils/mutations"
+import {useMutation } from "@apollo/client"
 
 function ProductContainer({ product, addToCart }) {
   const [selectedSize, setSelectedSize] = useState(null);
@@ -20,6 +22,7 @@ function ProductContainer({ product, addToCart }) {
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [createOrder] = useMutation(CREATE_ORDER)
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -32,6 +35,8 @@ function ProductContainer({ product, addToCart }) {
       size: selectedSize,
       color: selectedProduct.colors[selectedColorIndex],
     };
+    //incorporate createOrder mutation that adds a cartitem to orders products array
+    const {data} = createOrder({variables: {orderData:{...cartItem}}})
     addToCart(cartItem);
   }
 

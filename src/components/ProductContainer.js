@@ -14,11 +14,27 @@ import {
   ActionContainer
 } from '../styles/ProductContainerStyles';
 
-function ProductContainer({ product }) {
+function ProductContainer({ product, addToCart }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedProduct] = useState(product);
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert('Please select a size');
+      return;
+    }
+    const cartItem = {
+      product: selectedProduct.name,
+      quantity: selectedQuantity,
+      size: selectedSize,
+      color: selectedProduct.colors[selectedColorIndex],
+    };
+    addToCart(cartItem);
+  };
+
 
   const nextImage = () => {
     setActiveImageIndex((prevIndex) => (prevIndex + 1) % selectedProduct.imageUrl.length);
@@ -27,6 +43,7 @@ function ProductContainer({ product }) {
   const prevImage = () => {
     setActiveImageIndex((prevIndex) => (prevIndex - 1 + selectedProduct.imageUrl.length) % selectedProduct.imageUrl.length);
   };
+
   return (
     <ProductContainerStyled>
       <ProductSelectionContainer>
@@ -60,8 +77,13 @@ function ProductContainer({ product }) {
         </BoxContainer>
         <h4>Quantity:</h4>
         <ActionContainer>
-          <QuantityBox defaultValue="1" />
-          <CartButton>Add to Cart</CartButton>
+          <QuantityBox 
+            type="number" 
+            min="1" 
+            value={selectedQuantity} 
+            onChange={(e) => setSelectedQuantity(Number(e.target.value))} 
+          />
+          <CartButton onClick={handleAddToCart}>Add to Cart</CartButton>
         </ActionContainer>
       </ProductSelectionContainer>
   

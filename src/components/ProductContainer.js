@@ -27,14 +27,13 @@ function ProductContainer({ product, addToCart }) {
       return;
     }
     const cartItem = {
-      product: selectedProduct.name,
+      product: selectedProduct, // Pass the entire product object
       quantity: selectedQuantity,
       size: selectedSize,
       color: selectedProduct.colors[selectedColorIndex],
     };
     addToCart(cartItem);
-  };
-
+  }
 
   const nextImage = () => {
     setActiveImageIndex((prevIndex) => (prevIndex + 1) % selectedProduct.imageUrl.length);

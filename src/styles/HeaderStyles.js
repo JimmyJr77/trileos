@@ -64,3 +64,12 @@ export const Nav = styled.ul`
         }
     }
 `;
+
+export const CartCount = styled.span`
+  background-color: yellow;
+  color: black;
+  border-radius: 50%;
+  padding: 0.25em 0.5em;
+  margin-left: 0.5em;
+  font-weight: bold;
+`;

@@ -1,9 +1,9 @@
 import React from 'react';
-import { HeaderContainer, Logo, Nav, Title } from '../styles/HeaderStyles';
+import { HeaderContainer, Logo, Nav, Title, CartCount } from '../styles/HeaderStyles'; // Import CartCount
 import crest from '../assets/images/3lions_crest.png';
 import { Link } from 'react-router-dom';
 
-function Header() {
+function Header({ cartItemCount }) { // Receive cartItemCount as prop
     return (
         <HeaderContainer>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -13,7 +13,7 @@ function Header() {
             <Nav>
                 <Link to="/">Home</Link>
                 <Link to="/apparel">Apparel</Link>
-                <Link to="/cart">Cart</Link>
+                <Link to="/cart">Cart{cartItemCount > 0 && <CartCount>{cartItemCount}</CartCount>}</Link>
             </Nav>
         </HeaderContainer>
     );

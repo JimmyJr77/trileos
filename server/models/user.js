@@ -5,28 +5,42 @@ const { Schema } = mongoose;
 const Order = require('./Order');
 
 const userSchema = new Schema({
-  // Uncomment the userName field if you want to use it
-  userName: {
+  // userName: {
+  //   type: String,
+  //   required: false, // Not required for guest users
+  //   trim: true,
+  // },
+  firstName: {
     type: String,
-    required: true,
-    trim: true
+    required: false, // Not required for guest users
+    trim: true,
+  },
+  lastName: {
+    type: String,
+    required: false, // Not required for guest users
+    trim: true,
   },
   email: {
     type: String,
-    required: true,
+    required: true, // Always required
     unique: true,
-    match: [/.+@.+\..+/, 'Must match an email address!']
+    match: [/.+@.+\..+/, 'Must match an email address!'],
   },
   password: {
     type: String,
-    required: true,
-    minlength: 5
+    required: false, // Not required for guest users
+    minlength: 5,
+  },
+  phoneNumber: {
+    type: String,
+    required: false, // Optional
+    trim: true,
   },
   // Reference to Order by ID instead of embedding
   orders: [{
     type: Schema.Types.ObjectId,
-    ref: 'Order'
-  }]
+    ref: 'Order',
+  }],
 });
 
 // Set up pre-save middleware to create password
@@ -56,3 +70,4 @@ userSchema.methods.isCorrectPassword = async function (password) {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+

@@ -1,15 +1,22 @@
 const db = require('../config/connection');
-const { Product } = require('../models');
+const { User, Product } = require('../models');
+const userData = require('./user.json');
 const productsData = require('./products.json');
 
 db.once('open', async () => {
   try {
-    await Product.deleteMany({});  // Clear existing products
-    await Product.insertMany(productsData); // Bulk insert products
-    console.log('Products seeded successfully');
+    // Clear existing users and products
+    await User.deleteMany({});
+    await Product.deleteMany({});
+
+    // Bulk insert users and products
+    await User.insertMany(userData);
+    await Product.insertMany(productsData);
+
+    console.log('Users and products seeded successfully');
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding products', error);
+    console.error('Error seeding users and products', error);
     process.exit(1);
   }
 });

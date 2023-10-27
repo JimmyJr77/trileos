@@ -4,10 +4,10 @@
         "description": "Dress to Kill. Our dress slacks are DNA and stain resistant. They are flexible enough to get you into trouble, but tough enough to handle the punishment.",
         "price": 59.99,
         "imageUrl": [
-            "/client/src/assets/images/slacks-navy.jpg",
-            "/client/src/assets/images/slacks-khaki.jpg",
-            "/client/src/assets/images/slacks-grey.jpg",
-            "/client/src/assets/images/slacks-black.jpg"
+            "../../client/src/assets/images/slacks-navy.jpg",
+            "../../client/src/assets/images/slacks-khaki.jpg",
+            "../../client/src/assets/images/slacks-grey.jpg",
+            "../../client/src/assets/images/slacks-black.jpg"
         ],
         "variations": [
             {"size": "4T", "color": "navy", "stockCount": 100},
@@ -49,10 +49,10 @@
         "description": "Life is Shorts, Play Hard. These shorts are so comfortable and stylish you might not want to take them off. And given the antimicrobial stain-resistant fabric, you don't have to.",
         "price": 39.99,
         "imageUrl": [
-            "/client/src/assets/images/shorts-navy.jpg",
-            "/client/src/assets/images/shorts-red.jpg",
-            "/client/src/assets/images/shorts-khaki.jpg",
-            "/client/src/assets/images/shorts-brown.jpg"
+            "../../client/src/assets/images/shorts-navy.jpg",
+            "../../client/src/assets/images/shorts-red.jpg",
+            "../../client/src/assets/images/shorts-khaki.jpg",
+            "../../client/src/assets/images/shorts-brown.jpg"
         ],
         "variations": [
             {"size": "4T", "color": "navy", "stockCount": 100},
@@ -94,14 +94,14 @@
         "description": "You're not pouting, you're modeling a dramatically stoic expression. This polo looks so good your mother won't even realize you're not smiling for the family photo. You won't even realize it's a polo.",
         "price": 49.99,
         "imageUrl": [
-            "/client/src/assets/images/polo-red.jpg",
-            "/client/src/assets/images/polo-orange.jpg",
-            "/client/src/assets/images/polo-yellow.jpg",
-            "/client/src/assets/images/polo-blue.jpg",
-            "/client/src/assets/images/polo-green.jpg",
-            "/client/src/assets/images/polo-white.jpg",
-            "/client/src/assets/images/polo-grey.jpg",
-            "/client/src/assets/images/polo-black.jpg"
+            "../../client/src/assets/images/polo-red.jpg",
+            "../../client/src/assets/images/polo-orange.jpg",
+            "../../client/src/assets/images/polo-yellow.jpg",
+            "../../client/src/assets/images/polo-blue.jpg",
+            "../../client/src/assets/images/polo-green.jpg",
+            "../../client/src/assets/images/polo-white.jpg",
+            "../../client/src/assets/images/polo-grey.jpg",
+            "../../client/src/assets/images/polo-black.jpg"
         ],
         "variations": [
             {"size": "YXS", "color": "red", "stockCount": 100},
@@ -151,14 +151,14 @@
         "description": "The only t-shirt mom will let you wear to formal events. The only t-shirt you ever want to wear. Why isn't it flashy? Because in this shirt, you're the star.",
         "price": 29.99,
         "imageUrl": [
-            "/client/src/assets/images/tshirt-red.jpg",
-            "/client/src/assets/images/tshirt-orange.jpg",
-            "/client/src/assets/images/tshirt-yellow.jpg",
-            "/client/src/assets/images/tshirt-blue.jpg",
-            "/client/src/assets/images/tshirt-green.jpg",
-            "/client/src/assets/images/tshirt-white.jpg",
-            "/client/src/assets/images/tshirt-grey.jpg",
-            "/client/src/assets/images/tshirt-black.jpg"
+            "../../client/src/assets/images/tshirt-red.jpg",
+            "../../client/src/assets/images/tshirt-orange.jpg",
+            "../../client/src/assets/images/tshirt-yellow.jpg",
+            "../../client/src/assets/images/tshirt-blue.jpg",
+            "../../client/src/assets/images/tshirt-green.jpg",
+            "../../client/src/assets/images/tshirt-white.jpg",
+            "../../client/src/assets/images/tshirt-grey.jpg",
+            "../../client/src/assets/images/tshirt-black.jpg"
         ],
         "variations": [
             {"size": "YXS", "color": "red", "stockCount": 100},

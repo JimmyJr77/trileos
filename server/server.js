@@ -1,14 +1,29 @@
+require(dotenv).config();
+
 const express = require('express');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
 const PORT = process.env.PORT || 3001;
+const stripeApp = express();
 const app = express();
+
+stripeApp.use(express.json());
+
+
+
+const storeItems = new Map([
+  [1, { priceInCents: 10000, name: "Pants" }],
+  [2, { priceInCents: 20000, name: "Polo" }],
+  ]);
+
+  app.listen(3000);
 
 const server = new ApolloServer({
   typeDefs,//gql models

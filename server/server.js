@@ -11,11 +11,11 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 const server = new ApolloServer({
-  typeDefs,//gql models
-  resolvers,//gql controllers
+  typeDefs,
+  resolvers,
+  // context: authMiddleware, // IS THIS NEEDED HERE?
 });
 
-// Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
   await server.start();
 
@@ -23,17 +23,19 @@ const startApolloServer = async () => {
   app.use(express.json());
 
   // Serve up static assets
-  //app.use('/images', express.static(path.join(__dirname, '../client/images')));
+  app.use('/images', express.static(path.join(__dirname, '../client/assets/images'))); //CHECK THAT THIS IS THE RIGHT ACCESS POINT TO THE IMAGES
 
   app.use('/graphql', expressMiddleware(server, {
-    context: authMiddleware ///gql auth providing user context
+    path: '/graphql',
+    context: authMiddleware, // Provide context here
   }));
 
+  // Serve static assets in production
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
+    app.use(express.static(path.join(__dirname, '../client/build'))); // CHECK THIS PATH FOR PROD
 
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      res.sendFile(path.join(__dirname, '../client/build/index.html')); // CHECK THIS PATH FOR PROD
     });
   }
 
@@ -45,56 +47,4 @@ const startApolloServer = async () => {
   });
 };
 
-// Call the async function to start the server
 startApolloServer();
-
-
-
-
-
-// const express = require('express');
-// const { graphqlHTTP } = require('express-graphql');
-// const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
-// const mongoose = require('mongoose');
-
-// // Connect to MongoDB
-// mongoose.connect('mongodb://localhost/test', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-// const db = mongoose.connection;
-
-// db.on('error', (error) => {
-//   console.error(`MongoDB connection error: ${error}`);
-// });
-
-// db.once('open', () => {
-//   console.log('Connected to MongoDB');
-// });
-// const app = express();
-
-// // Define GraphQL schema (replace with your schema)
-// const schema = new GraphQLSchema({
-//   query: new GraphQLObjectType({
-//     name: 'Query',
-//     fields: {
-//       hello: {
-//         type: GraphQLString,
-//         resolve: () => 'Hello, GraphQL World!',
-//       },
-//     },
-//   }),
-// });
-
-// // Set up a GraphQL endpoint
-// app.use('/graphql', graphqlHTTP({
-//   schema: schema,
-//   graphiql: true, // Enable the GraphiQL interactive query interface
-// }));
-
-// // Start the server
-// const port = process.env.PORT || 4000;
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}/graphql`);
-// });

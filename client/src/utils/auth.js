@@ -1,50 +1,57 @@
-// use this to decode a token and get the user's information out of it
 import decode from 'jwt-decode';
 
-// create a new class to instantiate for a user
 class AuthService {
-  // get user data
+  // Define the key used to store the token in local storage
+  tokenKey = 'id_token';
+
+  // Get user data
   getProfile() {
-    return decode(this.getToken());
-  }
-
-  // check if user's logged in
-  loggedIn() {
-    // Checks if there is a saved token and it's still valid
     const token = this.getToken();
-    return !!token && !this.isTokenExpired(token); // handwaiving here
+    if (token) {
+      return decode(token);
+    }
+    return null;
   }
 
-  // check if token is expired
+  // Check if user's logged in
+  loggedIn() {
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired(token);
+  }
+
+  // Check if token is expired
   isTokenExpired(token) {
     try {
       const decoded = decode(token);
-      if (decoded.exp < Date.now() / 1000) {
-        return true;
-      } else return false;
+      return decoded.exp < Date.now() / 1000;
     } catch (err) {
-      return false;
+      console.error('Failed to decode token', err);
+      return true;
     }
   }
 
+  // Get token from local storage
   getToken() {
-    // Retrieves the user token from localStorage
-    return localStorage.getItem('id_token');
+    return localStorage.getItem(this.tokenKey);
   }
 
+  // Save token to local storage and reload page to reflect changes
   login(idToken) {
-    // Saves user token to localStorage
-    localStorage.setItem('id_token', idToken);
-    window.location.assign('/');
+    localStorage.setItem(this.tokenKey, idToken);
+    this.navigateToHomePage();
   }
 
+  // Clear token from local storage and reload page to reset state
   logout() {
-    // Clear user token and profile data from localStorage
-    localStorage.removeItem('id_token');
-    // this will reload the page and reset the state of the application
+    localStorage.removeItem(this.tokenKey);
+    this.navigateToHomePage();
+  }
+
+  // Helper method to navigate to home page
+  navigateToHomePage() {
     window.location.assign('/');
   }
 }
 
-export default new AuthService();
-
+// export default new AuthService();
+export default AuthService();

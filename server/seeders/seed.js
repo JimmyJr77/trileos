@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
-const db = require('../config/connection');  // Ensure this file correctly sets up your MongoDB connection
-const { Product } = require('../models');    // Ensure this file defines the Product model
-const products = require('./products.js');   // Your products data
+const db = require('../config/connection');
+const { Product } = require('../models');
+const productsData = require('./products.json');
 
 db.once('open', async () => {
   try {
-    await Product.deleteMany({});
-    await Product.create(products);
-    console.log('Products seeded!');
+    await Product.deleteMany({});  // Clear existing products
+    await Product.insertMany(productsData); // Bulk insert products
+    console.log('Products seeded successfully');
     process.exit(0);
-  } catch (err) {
-    throw new Error(err);
+  } catch (error) {
+    console.error('Error seeding products', error);
+    process.exit(1);
   }
 });

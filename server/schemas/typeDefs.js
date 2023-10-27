@@ -6,11 +6,20 @@ const typeDefs = gql`
     name: String
     description: String
     price: Float
-    size: [String]
-    colors: [String]
-    quantity: Int
     imageUrl: [String]
+    variations: [ProductVariant]
+  }
+
+  type ProductVariant {
+    size: String
+    color: String
     stockCount: Int
+  }
+
+  type Order {
+    _id: ID
+    purchaseDate: String
+    products: [Product]
   }
 
   input ProductInput {
@@ -18,16 +27,14 @@ const typeDefs = gql`
     name: String
     description: String
     price: Float
-    size: [String]
-    colors: [String]
-    quantity: Int
-    imageUrl: [String]
-  }
+    imageUrl: [String] # Corrected to be an array
+    variations: [ProductVariantInput]
+  }  
 
-  type Order {
-    _id: ID
-    purchaseDate: String
-    products: [Product]
+  input ProductVariantInput {
+    size: String
+    color: String
+    stockCount: Int
   }
 
   input OrderInput {

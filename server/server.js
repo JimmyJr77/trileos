@@ -13,7 +13,7 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // context: authMiddleware, // This is not needed here
+  // context: authMiddleware, // IS THIS NEEDED HERE?
 });
 
 const startApolloServer = async () => {
@@ -23,7 +23,7 @@ const startApolloServer = async () => {
   app.use(express.json());
 
   // Serve up static assets
-  app.use('/images', express.static(path.join(__dirname, '../client/assets/images')));
+  app.use('/images', express.static(path.join(__dirname, '../client/assets/images'))); //CHECK THAT THIS IS THE RIGHT ACCESS POINT TO THE IMAGES
 
   app.use('/graphql', expressMiddleware(server, {
     path: '/graphql',
@@ -32,10 +32,10 @@ const startApolloServer = async () => {
 
   // Serve static assets in production
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build'))); // Adjusted path
+    app.use(express.static(path.join(__dirname, '../client/build'))); // CHECK THIS PATH FOR PROD
 
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/build/index.html')); // Adjusted path
+      res.sendFile(path.join(__dirname, '../client/build/index.html')); // CHECK THIS PATH FOR PROD
     });
   }
 

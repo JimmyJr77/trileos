@@ -31,6 +31,26 @@ const resolvers = {
     },
   },
 
+  Product: {
+    variations: async (parent) => {
+      return parent.variations;
+    },
+  },
+
+  Order: {
+    products: async (parent) => {
+      try {
+        // Retrieve and return the product data based on the `products` array in the Order model
+        const productIds = parent.products.map((product) => product._id);
+        const products = await Product.find({ _id: { $in: productIds } }).select('-__v');
+        return products;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch order products');
+      }
+    },
+  },
+
   Mutation: {
     addUser: async (_, { userData }) => {
       try {
@@ -75,9 +95,18 @@ const resolvers = {
       }
 
       try {
-        // Here you should validate the product availability
-        // This would depend on your Product model
+        // Validate the product availability and gather product IDs
+        const productIds = orderData.products.map((product) => product._id);
+        const availableProducts = await Product.find({
+          _id: { $in: productIds },
+          'variations.stockCount': { $gte: 1 }, // Assuming 'stockCount' is used to track product availability
+        });
 
+        if (availableProducts.length !== productIds.length) {
+          throw new Error('One or more products are not available.');
+        }
+
+        // Create the order
         const order = await Order.create({ products: orderData.products });
         const user = await User.findByIdAndUpdate(context.user._id, { $push: { orders: order._id } }, { new: true });
 

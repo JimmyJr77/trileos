@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
-const Order = require('./order');
+const Order = require('./Order');
 
 const userSchema = new Schema({
   // Uncomment the userName field if you want to use it

@@ -2,9 +2,49 @@ const { AuthenticationError } = require('apollo-server-express');
 const mongoose = require('mongoose');
 const { User, Product, Order } = require('../models');
 const { signToken } = require('../utils/auth');
+// const { GraphQLScalarType } = require('graphql');
+// const { Kind } = require('graphql/language');
+
+// // Define the custom Date scalar resolver
+// const dateScalarResolver = new GraphQLScalarType({
+//   name: 'Date',
+//   description: 'Date custom scalar type',
+//   serialize(value) {
+//     // Serialize the JavaScript Date object to a string
+//     return value.toISOString();
+//   },
+//   parseValue(value) {
+//     // Parse the string back to a JavaScript Date object
+//     return new Date(value);
+//   },
+//   parseLiteral(ast) {
+//     if (ast.kind === Kind.STRING) {
+//       // Parse a string literal to a JavaScript Date object
+//       return new Date(ast.value);
+//     }
+//     return null; // Invalid input
+//   },
+// });
 
 const resolvers = {
   Query: {
+    getAdminUserData: async (_, __, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Not logged in');
+      }
+
+      if (!context.user.isAdmin) {
+        throw new AuthenticationError('Admin access required');
+      }
+
+      try {
+        const adminUserData = await fetchAdminUserData(); // Implement this function to fetch admin data
+        return adminUserData;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to fetch admin user data');
+      }
+    },
     getProducts: async () => {
       try {
         const products = await Product.find({}).select('-__v');
@@ -120,6 +160,8 @@ const resolvers = {
         throw new Error('Failed to create order');
       }
     },
+    
+    // Date: dateScalarResolver,
 
     updateUser: async (_, { userId, userData }, context) => {
       if (!context.user) {

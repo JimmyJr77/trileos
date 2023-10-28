@@ -51,8 +51,8 @@ function ProductContainer({ product, addToCart }) {
   return (
     <ProductContainerStyled>
       <ProductSelectionContainer>
-        <h2>{selectedProduct.name}</h2>
-        <p>{selectedProduct.description}</p>
+        <h2>{product.name}</h2>
+        <p>{product.description}</p>
         
         <h4>Sizes</h4>
         <BoxContainer>

@@ -27,9 +27,9 @@ const typeDefs = gql`
     name: String
     description: String
     price: Float
-    imageUrl: [String] # Corrected to be an array
+    imageUrl: [String]
     variations: [ProductVariantInput]
-  }  
+  }
 
   input ProductVariantInput {
     size: String
@@ -43,14 +43,22 @@ const typeDefs = gql`
 
   type User {
     _id: ID
+    firstName: String
+    lastName: String
     email: String
+    userName: String
+    phoneNumber: String
     orders: [Order]
+    isAdmin: Boolean  # isAdmin field indicates admin privileges
   }
 
   input UserInput {
-    username: String
+    _id: ID
+    firstName: String
+    lastName: String
     email: String
-    password: String
+    userName: String
+    phoneNumber: String
   }
 
   type Auth {
@@ -61,6 +69,7 @@ const typeDefs = gql`
   type Query {
     getProducts: [Product]
     getUser: User
+    getAdminUserData: User
   }
 
   type Mutation {

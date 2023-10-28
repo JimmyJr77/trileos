@@ -1,7 +1,7 @@
-const host = process.env.NODE_ENV === 'production' ? 'your_production_host_url' : 'http://localhost:3001';
+const host = process.env.NODE_ENV === 'production' ? 'your_production_host_url' : 'http://localhost:3000';
 
 // Casual Dress Slacks
-const pantsNavy = `${host}/images/pants-navy.jpg`;
+const pantsNavy = `${host}/src/assets/images/pants-navy.jpg`;
 const pantsKhaki = `${host}/images/pants-khaki.jpg`;
 const pantsGrey = `${host}/images/pants-grey.jpg`;
 const pantsBlack = `${host}/images/pants-black.jpg`;

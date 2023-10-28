@@ -1,42 +1,19 @@
-// schema.js
-// const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
-// const apolloserver = require('apollo-server');
-
-// const schema = new GraphQLSchema({
-//   query: new GraphQLObjectType({
-//     name: 'test',
-//     fields: {
-//       hello: {
-//         type: GraphQLString,
-//         resolve: () => 'test',
-//       },
-//     },
-//   }),
-// });
-
-// module.exports = schema;
 const { gql } = require('apollo-server-express');
+
 const typeDefs = gql`
   type Product {
     _id: ID
     name: String
     description: String
     price: Float
-    size: [String]
-    color: [String]
-    quantity: Int
     imageUrl: [String]
+    variations: [ProductVariant]
   }
 
-  input ProductInput {
-    _id: ID
-    name: String
-    description: String
-    price: Float
-    size: [String]
-    color: [String]
-    quantity: Int
-    imageUrl: [String]
+  type ProductVariant {
+    size: String
+    color: String
+    stockCount: Int
   }
 
   type Order {
@@ -45,15 +22,43 @@ const typeDefs = gql`
     products: [Product]
   }
 
-  type User {
+  input ProductInput {
     _id: ID
-    email: String
-    password: String
-    orders: [Order]
+    name: String
+    description: String
+    price: Float
+    imageUrl: [String]
+    variations: [ProductVariantInput]
   }
 
-  type Checkout {
-    session: ID
+  input ProductVariantInput {
+    size: String
+    color: String
+    stockCount: Int
+  }
+
+  input OrderInput {
+    products: [ProductInput]
+  }
+
+  type User {
+    _id: ID
+    firstName: String
+    lastName: String
+    email: String
+    userName: String
+    phoneNumber: String
+    orders: [Order]
+    isAdmin: Boolean  # isAdmin field indicates admin privileges
+  }
+
+  input UserInput {
+    _id: ID
+    firstName: String
+    lastName: String
+    email: String
+    userName: String
+    phoneNumber: String
   }
 
   type Auth {
@@ -63,19 +68,17 @@ const typeDefs = gql`
 
   type Query {
     getProducts: [Product]
-    # getSingleProduct(_id: ID!): Product
-    # getUser: User
-    # getOrders(_id: ID!): Order
-    # checkout(products: [ID]!): Checkout
+    getUser: User
+    getAdminUserData: User
   }
 
-  # type Mutation {
-  #   addUser(email: String, password: String): Auth
-  #   createOrder(orderData: ProductInput ): Order
-  #   deleteOrder(_id: ID): Order
-  #   updateOrder(_id: ID!, quantity: Int!): Product
-  #   login(email: String, password: String): Auth
-  # }
+  type Mutation {
+    addUser(userData: UserInput): Auth
+    login(email: String!, password: String!): Auth
+    createOrder(orderData: OrderInput): Order
+    updateUser(userId: ID!, userData: UserInput): User
+    updateOrder(orderId: ID!, orderData: OrderInput): Order
+  }
 `;
 
 module.exports = typeDefs;

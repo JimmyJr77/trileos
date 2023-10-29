@@ -26,6 +26,22 @@ const { signToken } = require('../utils/auth');
 //   },
 // });
 
+const fetchAdminUserData = async () => {
+  const adminUser = await User.findOne({ email: 'admin@example.com' });
+  if (!adminUser) {
+    throw new Error('Admin user not found');
+  }
+  return adminUser;
+};
+
+// const fetchUserData = async () => {
+//   const User = await User.findOne({ email: 'admin@example.com' });
+//   if (!adminUser) {
+//     throw new Error('Admin user not found');
+//   }
+//   return User;
+// };
+
 const resolvers = {
   Query: {
     getAdminUserData: async (_, __, context) => {
@@ -54,19 +70,21 @@ const resolvers = {
         throw new Error('Failed to fetch products');
       }
     },
-    getUser: async (_, __, context) => {
+    getUsers: async (_, __, context) => {
       if (!context.user) {
         throw new AuthenticationError('Not logged in');
       }
+  
+      if (!context.user.isAdmin) {
+        throw new AuthenticationError('Admin access required');
+      }
+  
       try {
-        const user = await User.findById(context.user._id).populate('orders');
-        if (!user) {
-          throw new Error('User not found');
-        }
-        return user;
+        const users = await User.find().select('-password -__v');
+        return users;
       } catch (error) {
         console.error(error);
-        throw new Error('Failed to fetch user');
+        throw new Error('Failed to fetch users');
       }
     },
   },

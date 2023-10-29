@@ -68,8 +68,8 @@ const typeDefs = gql`
 
   type Query {
     getProducts: [Product]
-    getUser: User
-    getAdminUserData: User
+    getUsers: [User] # admin only
+    getAdminUserData: User # admin only
   }
 
   type Mutation {

@@ -5,11 +5,11 @@ const { Schema } = mongoose;
 const Order = require('./Order');
 
 const userSchema = new Schema({
-  // userName: {
-  //   type: String,
-  //   required: false, // Not required for guest users
-  //   trim: true,
-  // },
+  userName: {
+    type: String,
+    required: false, // Not required for guest users
+    trim: true,
+  },
   firstName: {
     type: String,
     required: false, // Not required for guest users
@@ -35,6 +35,10 @@ const userSchema = new Schema({
     type: String,
     required: false, // Optional
     trim: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    required: false, // Not sure how this is connected yet and it's only really important if someone IS an admin.
   },
   // Reference to Order by ID instead of embedding
   orders: [{

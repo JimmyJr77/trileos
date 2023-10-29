@@ -24,21 +24,52 @@ function ProductContainer({ product, addToCart }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [createOrder] = useMutation(CREATE_ORDER)
 
-  const handleAddToCart = () => {
+  // const handleAddToCart = () => {
+  //   if (!selectedSize) {
+  //     alert('Please select a size');
+  //     return;
+  //   }
+  //   const cartItem = {
+  //     product: selectedProduct, // Pass the entire product object
+  //     quantity: selectedQuantity,
+  //     size: selectedSize,
+  //     color: selectedProduct.colors[selectedColorIndex],
+  //   };
+  //   //incorporate createOrder mutation that adds a cartitem to orders products array
+  //   const {data} = createOrder({variables: {orderData:{...cartItem}}})
+  //   addToCart(cartItem);
+  // }
+
+  const handleAddToCart = async () => {
     if (!selectedSize) {
       alert('Please select a size');
       return;
     }
     const cartItem = {
-      product: selectedProduct, // Pass the entire product object
+      product: selectedProduct._id,
       quantity: selectedQuantity,
       size: selectedSize,
       color: selectedProduct.colors[selectedColorIndex],
     };
-    //incorporate createOrder mutation that adds a cartitem to orders products array
-    const {data} = createOrder({variables: {orderData:{...cartItem}}})
-    addToCart(cartItem);
-  }
+  
+    try {
+      // Assuming your createOrder mutation expects an array of products
+      const { data } = await createOrder({
+        variables: { orderData: { products: [cartItem] } }
+      });
+  
+      if (data.createOrder) {
+        // Assuming createOrder returns the updated order
+        console.log('Order created:', data.createOrder);
+        addToCart(cartItem);
+      } else {
+        console.error('Failed to create order');
+      }
+    } catch (error) {
+      console.error('Error creating order:', error);
+    }
+  };
+
 
   const nextImage = () => {
     setActiveImageIndex((prevIndex) => (prevIndex + 1) % selectedProduct.imageUrl.length);

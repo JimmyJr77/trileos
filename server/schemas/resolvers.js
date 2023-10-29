@@ -27,7 +27,9 @@ const { signToken } = require('../utils/auth');
 // });
 
 const fetchAdminUserData = async () => {
+  console.log('Fetching admin user data...');
   const adminUser = await User.findOne({ email: 'admin@example.com' });
+  console.log('Admin User Data:', adminUser);
   if (!adminUser) {
     throw new Error('Admin user not found');
   }
@@ -35,7 +37,9 @@ const fetchAdminUserData = async () => {
 };
 
 // const fetchUserData = async () => {
+//   console.log('Fetching user data...');
 //   const User = await User.findOne({ email: 'admin@example.com' });
+//   console.log('User Data:', User);
 //   if (!adminUser) {
 //     throw new Error('Admin user not found');
 //   }
@@ -45,6 +49,7 @@ const fetchAdminUserData = async () => {
 const resolvers = {
   Query: {
     getAdminUserData: async (_, __, context) => {
+      console.log('Resolving getAdminUserData...');
       if (!context.user) {
         throw new AuthenticationError('Not logged in');
       }
@@ -57,20 +62,23 @@ const resolvers = {
         const adminUserData = await fetchAdminUserData(); // Implement this function to fetch admin data
         return adminUserData;
       } catch (error) {
-        console.error(error);
+        console.error('Error in getAdminUserData:', error);
         throw new Error('Failed to fetch admin user data');
       }
     },
     getProducts: async () => {
+      console.log('Resolving getProducts...');
       try {
         const products = await Product.find({}).select('-__v');
+        console.log('Fetched Products:', products);
         return products;
       } catch (error) {
-        console.error(error);
+        console.error('Error in getProducts:', error);
         throw new Error('Failed to fetch products');
       }
     },
     getUsers: async (_, __, context) => {
+      console.log('Resolving getUsers...');
       if (!context.user) {
         throw new AuthenticationError('Not logged in');
       }
@@ -81,9 +89,10 @@ const resolvers = {
   
       try {
         const users = await User.find().select('-password -__v');
+        console.log('Fetched Users:', users);
         return users;
       } catch (error) {
-        console.error(error);
+        console.error('Error in getUsers:', error);
         throw new Error('Failed to fetch users');
       }
     },
@@ -91,19 +100,22 @@ const resolvers = {
 
   Product: {
     variations: async (parent) => {
+      console.log('Resolving Product.variations for Product ID:', parent._id);
       return parent.variations;
     },
   },
 
   Order: {
     products: async (parent) => {
+      console.log('Resolving Order.products for Order ID:', parent._id);
       try {
         // Retrieve and return the product data based on the `products` array in the Order model
         const productIds = parent.products.map((product) => product._id);
         const products = await Product.find({ _id: { $in: productIds } }).select('-__v');
+        console.log('Fetched Products for Order:', products);
         return products;
       } catch (error) {
-        console.error(error);
+        console.error('Error in Order.products:', error);
         throw new Error('Failed to fetch order products');
       }
     },
@@ -111,20 +123,23 @@ const resolvers = {
 
   Mutation: {
     addUser: async (_, { userData }) => {
+      console.log('Resolving addUser with userData:', userData);
       try {
         const user = await User.create(userData);
         if (!user) {
           throw new Error('User could not be created');
         }
         const token = signToken(user);
+        console.log('User Created:', user);
         return { token, user };
       } catch (error) {
-        console.error(error);
+        console.error('Error in addUser:', error);
         throw new Error('Failed to create user');
       }
     },
 
     login: async (_, { email, password }) => {
+      console.log('Resolving login with email:', email);
       try {
         const user = await User.findOne({ email });
 
@@ -139,15 +154,16 @@ const resolvers = {
         }
 
         const token = signToken(user);
-
+        console.log('Login Success for user:', user);
         return { token, user };
       } catch (error) {
-        console.error(error);
+        console.error('Error in login:', error);
         throw new Error('Failed to login');
       }
     },
 
     createOrder: async (_, { orderData }, context) => {
+      console.log('Resolving createOrder with orderData:', orderData);
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
@@ -172,9 +188,10 @@ const resolvers = {
           throw new Error('User not found');
         }
 
+        console.log('Order Created:', order);
         return order;
       } catch (error) {
-        console.error(error);
+        console.error('Error in createOrder:', error);
         throw new Error('Failed to create order');
       }
     },
@@ -182,6 +199,7 @@ const resolvers = {
     // Date: dateScalarResolver,
 
     updateUser: async (_, { userId, userData }, context) => {
+      console.log('Resolving updateUser for userId:', userId, 'with userData:', userData);
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
@@ -190,39 +208,38 @@ const resolvers = {
       }
 
       try {
-        const updatedUser = await User.findByIdAndUpdate(userId, userData, { new: true });
+        const updatedUser = await User.findByIdAndUpdate(userId, { $set: userData }, { new: true, runValidators: true });
         if (!updatedUser) {
           throw new Error('User not found');
         }
+        console.log('User Updated:', updatedUser);
         return updatedUser;
       } catch (error) {
-        console.error(error);
+        console.error('Error in updateUser:', error);
         throw new Error('Failed to update user');
       }
     },
 
-    updateOrder: async (_, { orderId, orderData }, context) => {
+    updateProduct: async (_, { productId, productData }, context) => {
+      console.log('Resolving updateProduct for productId:', productId, 'with productData:', productData);
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
 
-      try {
-        const order = await Order.findById(orderId);
-        if (!order) {
-          throw new Error('Order not found');
-        }
-        if (order.user.toString() !== context.user._id.toString()) {
-          throw new AuthenticationError('You can only update your own orders!');
-        }
+      if (!context.user.isAdmin) {
+        throw new AuthenticationError('Admin access required');
+      }
 
-        const updatedOrder = await Order.findByIdAndUpdate(orderId, orderData, { new: true });
-        if (!updatedOrder) {
-          throw new Error('Failed to update order');
+      try {
+        const updatedProduct = await Product.findByIdAndUpdate(productId, { $set: productData }, { new: true, runValidators: true });
+        if (!updatedProduct) {
+          throw new Error('Product not found');
         }
-        return updatedOrder;
+        console.log('Product Updated:', updatedProduct);
+        return updatedProduct;
       } catch (error) {
-        console.error(error);
-        throw new Error('Failed to update order');
+        console.error('Error in updateProduct:', error);
+        throw new Error('Failed to update product');
       }
     },
   },

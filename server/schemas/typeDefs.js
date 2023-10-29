@@ -78,6 +78,7 @@ const typeDefs = gql`
     createOrder(orderData: OrderInput): Order
     updateUser(userId: ID!, userData: UserInput): User
     updateOrder(orderId: ID!, orderData: OrderInput): Order
+    updateProduct(productId: ID!, productData: ProductInput!): Product
   }
 `;
 

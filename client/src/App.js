@@ -21,7 +21,6 @@ const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URI || '/graphql',
 });
 
-
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -64,11 +63,11 @@ function App() {
           <PopupCloseButton onClick={closePopup}>×</PopupCloseButton>
         </PopupContainer>
       )}
+      <GlobalStyles />
       <Router>
         <Header cartItemCount={cartItems.length} />
         <main>
           <div>
-            <GlobalStyles />
             <Routes>
               <Route path="/" element={<Home />} index />
               <Route path="/apparel" element={<Apparel addToCart={addToCart} />} />

@@ -42,14 +42,15 @@ export const BoxContainer = styled.div`
 `;
 
 export const SizeBox = styled.div`
-  font-size: 10px;
-  width: 35px;
-  height: 15px;
+  font-size: 12px;
+  width: 30px;
+  height: 30px;
   border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => (props.selected ? "lightgrey" : "white")};
+  background-color: ${props => (props.selected ? "black" : "white")};
+  color: ${props => (props.selected ? "white" : "black")};
   cursor: pointer;
 `;
 
@@ -57,9 +58,8 @@ export const ColorBox = styled.div`
   width: 30px;
   height: 30px;
   background-color: ${props => props.color};
-  margin: 5px;
   cursor: pointer;
-  border: .5px solid grey;
+  border: 1px solid grey;
   box-shadow: ${props => (props.selected ? "0 0 2px 2px black" : "none")};
 `;
 
@@ -133,7 +133,7 @@ export const SpinnerImage = styled.img`
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  display: ${props => (props.active ? 'block' : 'none')};
+  display: ${props => props.$active ? 'block' : 'none'};
   transition: opacity 0.5s;
 `;
 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// Import necessary libraries and components
+import React, { useState, createContext, useContext } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./components/Header";
@@ -17,15 +18,20 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
+// Create a context for cart items and popup
+const CartContext = createContext();
+
+// Create a hook to use the cart context
+export const useCart = () => useContext(CartContext);
+
+// Define the http link for Apollo Client
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URI || '/graphql',
 });
 
-// Construct request middleware that will attach the JWT token to every request as an `authorization` header
+// Construct request middleware for attaching JWT token to every request
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -34,8 +40,8 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// Initialize Apollo Client
 const client = new ApolloClient({
-  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
@@ -47,7 +53,7 @@ function App() {
   const addToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);
     setPopup(`${item.product} added to cart (Qty: ${item.quantity})`);
-    setTimeout(() => setPopup(null), 3000); // Hide popup after 3 seconds
+    setTimeout(() => setPopup(null), 3000);
   };
 
   const closePopup = () => {
@@ -55,29 +61,31 @@ function App() {
   };
 
   return (
-    <ApolloProvider client = {client}> 
-    <div className="App">
-      {popup && (
-        <PopupContainer show={Boolean(popup)}>
-          <PopupMessage>{popup}</PopupMessage>
-          <PopupCloseButton onClick={closePopup}>×</PopupCloseButton>
-        </PopupContainer>
-      )}
-      <GlobalStyles />
-      <Router>
-        <Header cartItemCount={cartItems.length} />
-        <main>
-          <div>
-            <Routes>
-              <Route path="/" element={<Home />} index />
-              <Route path="/apparel" element={<Apparel addToCart={addToCart} />} />
-              <Route path="/cart" element={<Cart cartItems={cartItems} />} />
-            </Routes>
-          </div>
-        </main>
-        <Footer />
-      </Router>
-    </div>
+    <ApolloProvider client={client}>
+      <CartContext.Provider value={{ cartItems, addToCart }}>
+        <div className="App">
+          {popup && (
+            <PopupContainer show={Boolean(popup)}>
+              <PopupMessage>{popup}</PopupMessage>
+              <PopupCloseButton onClick={closePopup}>×</PopupCloseButton>
+            </PopupContainer>
+          )}
+          <GlobalStyles />
+          <Router>
+            <Header />
+            <main>
+              <div>
+                <Routes>
+                  <Route path="/" element={<Home />} index />
+                  <Route path="/apparel" element={<Apparel />} />
+                  <Route path="/cart" element={<Cart />} />
+                </Routes>
+              </div>
+            </main>
+            <Footer />
+          </Router>
+        </div>
+      </CartContext.Provider>
     </ApolloProvider>
   );
 }

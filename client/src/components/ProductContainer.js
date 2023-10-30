@@ -128,11 +128,11 @@ function ProductContainer({ product, addToCart }) {
           <SpinnerButton onClick={prevImage}>❮</SpinnerButton>
           {product.imageUrl &&
             product.imageUrl.map((url, index) => (
-              <SpinnerImage
-                src={url}
-                alt={product.name}
-                key={index}
-                active={index === activeImageIndex}
+              <SpinnerImage 
+                $active={index === activeImageIndex} 
+                src={product.imageUrl ? `/images/${product.imageUrl[index]}` : 'default-image-url'} 
+                alt={product.name} 
+                key={index} 
               />
             ))}
           <SpinnerButton onClick={nextImage}>❯</SpinnerButton>

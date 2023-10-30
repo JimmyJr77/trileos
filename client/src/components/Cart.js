@@ -1,5 +1,6 @@
 import React from 'react';
 import CartItem from './CartItem';
+import { useCart } from './CartContext';
 import {
   CartContainer,
   CartContainerStyled,
@@ -11,11 +12,13 @@ import {
   Total,
   CheckoutButton,
   CheckoutDetailsBox,
-  CheckoutTitle,
-  CartItemsContainer
+  CartItemsContainer,
+  CheckoutTitle
 } from '../styles/CartStyles';
 
-const Cart = ({ cartItems }) => {
+const Cart = () => {
+  const { cartItems } = useCart() || {};
+
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
   const tax = subtotal * 0.07;
   const estimatedShipping = 5;

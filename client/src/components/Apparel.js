@@ -1,17 +1,18 @@
 import React from 'react';
-import ProductContainer from './ProductContainer.js';
-import { ApparelTitle, ApparelContainer } from '../styles/ApparelStyles';
 import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS } from '../utils/queries';
+import ProductContainer from './ProductContainer';
+import { ApparelContainer, ApparelTitle } from '../styles/ApparelStyles';
+import { useCart } from './CartContext';
 
-
-function Apparel({ addToCart }) {
+function Apparel() {
   const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const { addToCart } = useCart(); // Get addToCart from CartContext
+
   if (loading) return <div>Loading...</div>;
-  console.log(data);
+
   const productData = data?.getProducts || [];
   if (!productData.length) return <div>No products found</div>;
-
 
   return (
     <ApparelContainer>
@@ -22,5 +23,7 @@ function Apparel({ addToCart }) {
     </ApparelContainer>
   );
 }
+
 export default Apparel;
+
 

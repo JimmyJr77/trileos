@@ -1,9 +1,12 @@
 import React from 'react';
-import { HeaderContainer, Logo, Nav, Title, CartCount } from '../styles/HeaderStyles'; // Import CartCount
+import { useCart } from './CartContext';
+import { HeaderContainer, Logo, Nav, Title, CartCount } from '../styles/HeaderStyles';
 import crest from '../assets/images/3lions_crest.png';
 import { Link } from 'react-router-dom';
 
-function Header({ cartItemCount }) { // Receive cartItemCount as prop
+function Header() {
+    const { cartItems } = useCart() || {}; // Get cartItems from CartContext
+    const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0); // Calculate total cart item count
     return (
         <HeaderContainer>
             <div style={{ display: "flex", alignItems: "center" }}>

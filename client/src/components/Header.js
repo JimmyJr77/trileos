@@ -16,6 +16,9 @@ function Header() {
             <Nav>
                 <Link to="/">Home</Link>
                 <Link to="/apparel">Apparel</Link>
+                <Link to="/apparel">Login</Link>
+                <Link to="/apparel">Logout</Link>
+                <Link to="/apparel">MyOrders</Link>
                 <Link to="/cart">Cart{cartItemCount > 0 && <CartCount>{cartItemCount}</CartCount>}</Link>
             </Nav>
         </HeaderContainer>

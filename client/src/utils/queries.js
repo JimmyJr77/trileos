@@ -13,8 +13,10 @@ export const QUERY_ME = gql`
           name
           price
           quantity
-          color
-          size
+          variations {
+            size
+            color
+          }
         }
       }
     }
@@ -29,10 +31,12 @@ export const QUERY_PRODUCT = gql`
       name
       description
       price
-      size
-      stockCount
-      color
       imageUrl
+      variations {
+        size
+        stockCount
+        color
+      }
     }
   }
 `;
@@ -46,10 +50,13 @@ export const QUERY_PRODUCTS = gql`
       name
       description
       price
-      size
-      stockCount
-      color
       imageUrl
+      variations {
+        size
+        stockCount
+        color
+      }
     }
   }
 `;
+

@@ -68,8 +68,8 @@ const typeDefs = gql`
 
   type Query {
     getProducts: [Product]
-    getUser: User
-    getAdminUserData: User
+    getUsers: [User] # admin only
+    getAdminUserData: User # admin only
   }
 
   type Mutation {
@@ -78,6 +78,7 @@ const typeDefs = gql`
     createOrder(orderData: OrderInput): Order
     updateUser(userId: ID!, userData: UserInput): User
     updateOrder(orderId: ID!, orderData: OrderInput): Order
+    updateProduct(productId: ID!, productData: ProductInput!): Product
   }
 `;
 

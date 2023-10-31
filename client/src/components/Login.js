@@ -20,6 +20,7 @@ const Login = ({ setIsAuthenticated }) => {
       });
 
       if (data && data.login) {
+
         console.log('Login successful');
         localStorage.setItem('id_token', data.login.token);
         setIsAuthenticated(true);

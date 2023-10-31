@@ -2,10 +2,9 @@ const { AuthenticationError } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const secret = process.env.SECRET || 'SUPER SECRET SECRET';
-const expiration = '2h';
+const secret = process.env.JWT_SECRET || 'SUPER SECRET SECRET';
+const expiration = process.env.JWT_EXPIRES_IN || '2h';
 
-// Define the signToken function
 function signToken(payload) {
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
 }
@@ -32,26 +31,24 @@ const adminUser = {
 
 module.exports = {
   authMiddleware: function ({ req }) {
+    // Extract the token from the Authorization header
     const authHeader = req.headers.authorization;
+    const token = authHeader ? authHeader.split(' ')[1] : undefined;
 
-    if (!authHeader) {
-      return req;
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-
+    // If no token is found, return the original request
     if (!token) {
-      return req;
+      return { user: null };
     }
 
+    // If a token is found, verify it and add the user data to the context
     try {
-      const data = jwt.verify(token, secret);
-      req.user = data;
+      const { data } = jwt.verify(token, secret);
+      return { user: data };
     } catch (err) {
-      console.log('Invalid token');
+      console.error('Invalid token');
+      throw new AuthenticationError('Invalid/Expired token');
     }
-
-    return req;
   },
-  signToken, // Export the signToken function
+  signToken,
+  adminUser, // Export the adminUser for other purposes if needed
 };

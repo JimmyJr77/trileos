@@ -65,3 +65,14 @@ export const GET_USER_ORDER_HISTORY = gql`
     }
   }
 `;
+
+export const GET_CURRENT_USER_DATA = gql`
+  query GetCurrentUserData {
+    getCurrentUserData {
+      _id
+      email
+      userName
+      isAdmin
+    }
+  }
+`;

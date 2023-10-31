@@ -9,6 +9,7 @@ import Apparel from './components/Apparel';
 import Cart from './components/Cart';
 import { PopupContainer, PopupMessage, PopupCloseButton } from './styles/PopupStyles';
 import Login from './components/Login';
+import authService from './utils/auth';
 import MyOrders from './components/MyOrders';
 
 import {
@@ -31,15 +32,14 @@ const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_URI || '/graphql',
 });
 
-// Construct request middleware for attaching JWT token to every request
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
 });
 
 // Initialize Apollo Client
@@ -51,7 +51,8 @@ const client = new ApolloClient({
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [popup, setPopup] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('id_token')); // Check if user is logged in
+  // const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('id_token')); // Check if user is logged in
+  const [loggedIn, setLoggedIn] = useState(authService.loggedIn()); // Set based on authService
 
   const addToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);
@@ -65,7 +66,7 @@ function App() {
 
   useEffect(() => {
     // Check if user is logged in when the component mounts
-    setLoggedIn(!!localStorage.getItem('id_token'));
+    setLoggedIn(authService.loggedIn());
   }, []);
 
   return (

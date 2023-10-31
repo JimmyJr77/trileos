@@ -9,7 +9,7 @@ function Header({ loggedIn, setLoggedIn }) {
     const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
     
   // Check if the user is authenticated (has a token)
-  const isAuthenticated = !!localStorage.getItem('id_token');
+//   const isAuthenticated = !!localStorage.getItem('id_token');
 
   return (
     <HeaderContainer>
@@ -22,7 +22,7 @@ function Header({ loggedIn, setLoggedIn }) {
         <Link to="/apparel">Apparel</Link>
         {loggedIn ? ( // Check if the user is logged in
           <>
-            <Link to="/myorders">My Orders</Link>
+            <Link to="/myorders">Orders</Link>
             <Link
               to="/"
               onClick={() => {

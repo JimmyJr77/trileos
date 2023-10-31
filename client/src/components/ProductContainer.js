@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
 import { ProductContainerStyled, ProductSelectionContainer, MainImageContainer, BoxContainer, SizeBox, ColorBox, ImageSpinner, SpinnerImage, SpinnerButton, QuantityBox, CartButton, ActionContainer } from '../styles/ProductContainerStyles';
-import { useMutation } from '@apollo/client'; // Import useMutation
-import { CREATE_ORDER } from '../utils/mutations'; // Import your GraphQL mutation
+import { useMutation } from '@apollo/client';
+import { CREATE_ORDER } from '../utils/mutations';
 
 function ProductContainer({ product }) {
   const [selectedSize, setSelectedSize] = useState(null);
@@ -12,7 +12,6 @@ function ProductContainer({ product }) {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    // When the product changes, update the selected size and color
     if (product.variations && product.variations.length > 0) {
       const uniqueSizes = [...new Set(product.variations.map(item => item.size))];
       const uniqueColors = [...new Set(product.variations.map(item => item.color))];
@@ -23,10 +22,9 @@ function ProductContainer({ product }) {
 
   const uniqueSizes = [...new Set(product.variations.map(item => item.size))];
   const uniqueColors = [...new Set(product.variations.map(item => item.color))];
-  
-  // Use useMutation hook to execute the CREATE_ORDER mutation
+
   const [addToCartMutation, { error }] = useMutation(CREATE_ORDER);
-  
+
   const handleAddToCart = async () => {
     if (!selectedSize || !selectedColor) {
       alert('Please select a size and color');
@@ -40,12 +38,32 @@ function ProductContainer({ product }) {
       color: selectedColor,
       size: selectedSize,
       quantity: selectedQuantity,
+      price: product.price,
+      productImage: product.productImage, // Add productImage if available
     };
 
     try {
-      // Execute the CREATE_ORDER mutation
       const { data } = await addToCartMutation({
-        variables: { input: cartItem },
+        variables: {
+          orderData: {
+            products: [
+              {
+                _id: cartItem.productId,
+                name: cartItem.name,
+                description: cartItem.description,
+                price: cartItem.price,
+                productImage: cartItem.productImage,
+                variations: [
+                  {
+                    size: cartItem.size,
+                    color: cartItem.color,
+                    stockCount: cartItem.quantity,
+                  },
+                ],
+              },
+            ],
+          },
+        },
       });
 
       if (data.createOrder) {
@@ -58,7 +76,7 @@ function ProductContainer({ product }) {
       console.error('Error adding item to cart:', error);
     }
   };
-  
+
   const nextImage = () => {
     setActiveImageIndex(
       (prevIndex) => (prevIndex + 1) % product.productImage.length
@@ -120,11 +138,11 @@ function ProductContainer({ product }) {
           <SpinnerButton onClick={prevImage}>❮</SpinnerButton>
           {product.productImage &&
             product.productImage.map((url, index) => (
-              <SpinnerImage 
-                $active={index === activeImageIndex} 
-                src={product.productImage ? `/images/${product.productImage[index]}` : 'default-image-url'} 
-                alt={product.name} 
-                key={index} 
+              <SpinnerImage
+                $active={index === activeImageIndex}
+                src={product.productImage ? `/images/${product.productImage[index]}` : 'default-image-url'}
+                alt={product.name}
+                key={index}
               />
             ))}
           <SpinnerButton onClick={nextImage}>❯</SpinnerButton>

@@ -1,6 +1,29 @@
 import { jwtDecode } from 'jwt-decode';
 
 class AuthService {
+  guestTokenKey = 'guest_token';
+
+  setGuestToken(guestToken) {
+    localStorage.setItem(this.guestTokenKey, guestToken);
+  }
+
+  getGuestToken() {
+    return localStorage.getItem(this.guestTokenKey);
+  }
+
+  removeGuestToken() {
+    localStorage.removeItem(this.guestTokenKey);
+  }
+
+  transferGuestCartToUser() {
+    const guestToken = this.getGuestToken();
+    if (guestToken) {
+      // Transfer cart items from guest to user
+      // Update Apollo cache or perform any other necessary actions
+      this.removeGuestToken();
+    }
+  }
+
   // Define the key used to store the token in local storage
   tokenKey = 'id_token';
 
@@ -39,11 +62,6 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem(this.tokenKey);
-  }
-
-  // Remove token from local storage
-  removeToken() {
     localStorage.removeItem(this.tokenKey);
   }
 

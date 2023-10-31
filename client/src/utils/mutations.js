@@ -40,7 +40,9 @@ export const CREATE_ORDER = gql`
         name
         description
         price
+        productImage
         variations {
+          _id
           size
           color
           stockCount
@@ -52,8 +54,8 @@ export const CREATE_ORDER = gql`
 
 // Mutation to update user information (requires authentication)
 export const UPDATE_USER = gql`
-  mutation UpdateUser($userId: ID!, $userData: UserInput!) {
-    updateUser(userId: $userId, userData: $userData) {
+  mutation UpdateUser($userData: UserInput!) {
+    updateUser(userData: $userData) {
       _id
       email
       userName
@@ -71,6 +73,7 @@ export const UPDATE_PRODUCT = gql`
       description
       price
       variations {
+        _id
         size
         color
         stockCount
@@ -78,5 +81,3 @@ export const UPDATE_PRODUCT = gql`
     }
   }
 `;
-
-

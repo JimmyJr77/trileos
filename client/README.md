@@ -1,4 +1,5 @@
 # Trileos
+Trileos Clothing Company. Clothes for dangerous kids who like comfort.
 
 Welcome to Trileos, your one-stop online store, selling comfortable clothes for dangerous kids
 
@@ -51,4 +52,4 @@ Please refer to the [Contribution Guidelines](CONTRIBUTING.md) for more details.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 

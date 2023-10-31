@@ -18,8 +18,9 @@ import {
 import {useQuery} from "@apollo/client"
 import { GET_USER_ORDER_HISTORY } from '../utils/queries';
 const Cart = () => {
-  const { cartItems } = useCart() || {};
+  const { cartItems = [] } = useCart();
 
+<<<<<<< HEAD
 //const {loading, data} = useQuery(GET_USER_ORDER_HISTORY)
 //const cartItems = data?.GetUserOrderHistory || []
 
@@ -27,6 +28,9 @@ const Cart = () => {
  
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+=======
+  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);  
+>>>>>>> 3a39bfae6f993baf28a92523f30a7514d7861f1e
   const tax = subtotal * 0.07;
   const estimatedShipping = 5;
   const total = subtotal + tax + estimatedShipping;
@@ -40,23 +44,22 @@ const Cart = () => {
             <CartItem key={index} item={item} />
           ))}
         </CartItemsContainer>
-          <SubTotalsContainer>
-            <CheckoutDetailsBox>
-              <CheckoutTitle>Checkout Details</CheckoutTitle>
-              <hr />
-
-              {cartItems.map((item, index) => (
-                <p key={index}>
-                  {item.quantity}X {item.product.name}: ${item.product.price * item.quantity}
-                </p>
-              ))}
-              <Subtotal>Subtotal: ${subtotal.toFixed(2)}</Subtotal>
-              <Tax>Tax: ${tax.toFixed(2)}</Tax>
-              <Shipping>Est Shipping: TBD</Shipping>
-              <Total>Total: ${total.toFixed(2)}</Total>
-              <CheckoutButton>Checkout</CheckoutButton>
-            </CheckoutDetailsBox>
-          </SubTotalsContainer>
+        <SubTotalsContainer>
+          <CheckoutDetailsBox>
+            <CheckoutTitle>Checkout Details</CheckoutTitle>
+            <hr />
+            {cartItems.map((item, index) => (
+              <p key={index}>
+                {item.quantity}X {item.name}: ${item.price * item.quantity}
+              </p>
+            ))}
+            <Subtotal>Subtotal: ${subtotal.toFixed(2)}</Subtotal>
+            <Tax>Tax: ${tax.toFixed(2)}</Tax>
+            <Shipping>Est Shipping: TBD</Shipping>
+            <Total>Total: ${total.toFixed(2)}</Total>
+            <CheckoutButton>Checkout</CheckoutButton>
+          </CheckoutDetailsBox>
+        </SubTotalsContainer>
       </CartContainerStyled>
     </CartContainer>
   );

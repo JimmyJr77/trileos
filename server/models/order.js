@@ -8,6 +8,12 @@ const orderItemSchema = new Schema({
     ref: 'Product',
     required: true
   },
+  variant: {
+    _id: Schema.Types.ObjectId,
+    size: String,
+    color: String,
+    stockCount: Number
+  },
   quantity: {
     type: Number,
     min: [1, 'Quantity can not be less than 1.'],
@@ -30,6 +36,11 @@ const orderSchema = new Schema({
     required: true,
     min: [0, 'Total price can not be negative.']
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
 });
 
 const Order = mongoose.model('Order', orderSchema);

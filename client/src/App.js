@@ -11,6 +11,7 @@ import { PopupContainer, PopupMessage, PopupCloseButton } from './styles/PopupSt
 import Login from './components/Login';
 import authService from './utils/auth';
 import MyOrders from './components/MyOrders';
+import { jwtDecode } from 'jwt-decode';
 
 import {
   ApolloClient,
@@ -64,9 +65,12 @@ function App() {
     setPopup(null);
   };
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    // Check if user is logged in when the component mounts
-    setLoggedIn(authService.loggedIn());
+    if (authService.loggedIn()) {
+      // Set the authenticated state to true
+      setIsAuthenticated(true);
+    }
   }, []);
 
   return (
@@ -81,7 +85,7 @@ function App() {
           )}
           <GlobalStyles />
           <Router>
-            <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+            <Header loggedIn={isAuthenticated} setLoggedIn={setIsAuthenticated} />
             <main>
               <div>
                 <Routes>
@@ -90,7 +94,7 @@ function App() {
                   <Route path="/cart" element={<Cart />} />
                   <Route
                     path="/login"
-                    element={<Login setIsAuthenticated={setLoggedIn} />}
+                    element={<Login setIsAuthenticated={setIsAuthenticated} />}
                   />
                   {/* Add a route for redirecting to "Apparel" after successful login */}
                   <Route

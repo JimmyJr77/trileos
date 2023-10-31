@@ -1,50 +1,6 @@
 const { AuthenticationError } = require('apollo-server-express');
-const mongoose = require('mongoose');
 const { User, Product, Order } = require('../models');
 const { signToken } = require('../utils/auth');
-// const { GraphQLScalarType } = require('graphql');
-// const { Kind } = require('graphql/language');
-
-// // Define the custom Date scalar resolver
-// const dateScalarResolver = new GraphQLScalarType({
-//   name: 'Date',
-//   description: 'Date custom scalar type',
-//   serialize(value) {
-//     // Serialize the JavaScript Date object to a string
-//     return value.toISOString();
-//   },
-//   parseValue(value) {
-//     // Parse the string back to a JavaScript Date object
-//     return new Date(value);
-//   },
-//   parseLiteral(ast) {
-//     if (ast.kind === Kind.STRING) {
-//       // Parse a string literal to a JavaScript Date object
-//       return new Date(ast.value);
-//     }
-//     return null; // Invalid input
-//   },
-// });
-
-const fetchAdminUserData = async () => {
-  console.log('Fetching admin user data...');
-  const adminUser = await User.findOne({ email: 'admin@example.com' });
-  console.log('Admin User Data:', adminUser);
-  if (!adminUser) {
-    throw new Error('Admin user not found');
-  }
-  return adminUser;
-};
-
-// const fetchUserData = async () => {
-//   console.log('Fetching user data...');
-//   const User = await User.findOne({ email: 'admin@example.com' });
-//   console.log('User Data:', User);
-//   if (!adminUser) {
-//     throw new Error('Admin user not found');
-//   }
-//   return User;
-// };
 
 const resolvers = {
   Query: {
@@ -59,7 +15,11 @@ const resolvers = {
       }
 
       try {
-        const adminUserData = await fetchAdminUserData(); // Implement this function to fetch admin data
+        const adminUserData = await User.findOne({ email: 'admin@example.com' });
+        console.log('Admin User Data:', adminUserData);
+        if (!adminUserData) {
+          throw new Error('Admin user not found');
+        }
         return adminUserData;
       } catch (error) {
         console.error('Error in getAdminUserData:', error);
@@ -82,11 +42,11 @@ const resolvers = {
       if (!context.user) {
         throw new AuthenticationError('Not logged in');
       }
-  
+
       if (!context.user.isAdmin) {
         throw new AuthenticationError('Admin access required');
       }
-  
+
       try {
         const users = await User.find().select('-password -__v');
         console.log('Fetched Users:', users);
@@ -110,7 +70,7 @@ const resolvers = {
       console.log('Resolving Order.products for Order ID:', parent._id);
       try {
         // Retrieve and return the product data based on the `products` array in the Order model
-        const productIds = parent.products.map((product) => product._id);
+        const productIds = parent.products.map((product) => product.product._id);
         const products = await Product.find({ _id: { $in: productIds } }).select('-__v');
         console.log('Fetched Products for Order:', products);
         return products;
@@ -158,7 +118,7 @@ const resolvers = {
         return { token, user };
       } catch (error) {
         console.error('Error in login:', error);
-        throw new Error('Failed to login');
+        throw AuthenticationError('Failed to login');
       }
     },
 
@@ -173,21 +133,11 @@ const resolvers = {
         const productIds = orderData.products.map((product) => product._id);
         const availableProducts = await Product.find({
           _id: { $in: productIds },
-          'variations.stockCount': { $gte: 1 }, // Assuming 'stockCount' is used to track product availability
+          'variations.stockCount': { $gte: 1 },
         });
-
-        if (availableProducts.length !== productIds.length) {
-          throw new Error('One or more products are not available.');
-        }
 
         // Create the order
         const order = await Order.create({ products: orderData.products });
-        const user = await User.findByIdAndUpdate(context.user._id, { $push: { orders: order._id } }, { new: true });
-
-        if (!user) {
-          throw new Error('User not found');
-        }
-
         console.log('Order Created:', order);
         return order;
       } catch (error) {
@@ -195,8 +145,6 @@ const resolvers = {
         throw new Error('Failed to create order');
       }
     },
-    
-    // Date: dateScalarResolver,
 
     updateUser: async (_, { userId, userData }, context) => {
       console.log('Resolving updateUser for userId:', userId, 'with userData:', userData);

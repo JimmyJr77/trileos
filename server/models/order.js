@@ -13,7 +13,7 @@ const orderItemSchema = new Schema({
     min: [1, 'Quantity can not be less than 1.'],
     default: 1
   },
-  priceAtPurchase: {
+  price: {
     type: Number,
     required: true,
     min: [0, 'Price can not be negative.']
@@ -24,21 +24,12 @@ const orderItemSchema = new Schema({
 });
 
 const orderSchema = new Schema({
-  purchaseDate: {
-    type: Date,
-    default: Date.now
-  },
   products: [orderItemSchema],
   totalPrice: {
     type: Number,
     required: true,
     min: [0, 'Total price can not be negative.']
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  }
 });
 
 const Order = mongoose.model('Order', orderSchema);

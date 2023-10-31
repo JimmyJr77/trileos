@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
-import { CREATE_ORDER } from "../utils/mutations";
-import {
-  ProductContainerStyled,
-  ProductSelectionContainer,
-  MainImageContainer,
-  BoxContainer,
-  SizeBox,
-  ColorBox,
-  ImageSpinner,
-  SpinnerImage,
-  SpinnerButton,
-  QuantityBox,
-  CartButton,
-  ActionContainer
-} from '../styles/ProductContainerStyles';
+import React, { useState, useEffect } from 'react';
+import { useCart } from './CartContext';
+import { ProductContainerStyled, ProductSelectionContainer, MainImageContainer, BoxContainer, SizeBox, ColorBox, ImageSpinner, SpinnerImage, SpinnerButton, QuantityBox, CartButton, ActionContainer } from '../styles/ProductContainerStyles';
+import { useMutation } from '@apollo/client'; // Import useMutation
+import { CREATE_ORDER } from '../utils/mutations'; // Import your GraphQL mutation
 
-function ProductContainer({ product, addToCart }) {
+function ProductContainer({ product }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [createOrder, { error }] = useMutation(CREATE_ORDER);
+  const { addToCart } = useCart();
 
   useEffect(() => {
+    // When the product changes, update the selected size and color
     if (product.variations && product.variations.length > 0) {
       const uniqueSizes = [...new Set(product.variations.map(item => item.size))];
       const uniqueColors = [...new Set(product.variations.map(item => item.color))];
@@ -34,51 +23,54 @@ function ProductContainer({ product, addToCart }) {
 
   const uniqueSizes = [...new Set(product.variations.map(item => item.size))];
   const uniqueColors = [...new Set(product.variations.map(item => item.color))];
-
+  
+  // Use useMutation hook to execute the CREATE_ORDER mutation
+  const [addToCartMutation, { error }] = useMutation(CREATE_ORDER);
+  
   const handleAddToCart = async () => {
     if (!selectedSize || !selectedColor) {
       alert('Please select a size and color');
       return;
     }
+
     const cartItem = {
-      product: product._id,
-      quantity: selectedQuantity,
-      size: selectedSize,
+      productId: product._id,
+      name: product.name,
+      description: product.description,
       color: selectedColor,
+      size: selectedSize,
+      quantity: selectedQuantity,
     };
 
     try {
-      const { data } = await createOrder({
-        variables: { orderData: { products: [cartItem] } },
+      // Execute the CREATE_ORDER mutation
+      const { data } = await addToCartMutation({
+        variables: { input: cartItem },
       });
 
       if (data.createOrder) {
-        console.log('Order created:', data.createOrder);
+        console.log('Item added to cart:', data.createOrder);
         addToCart(cartItem);
       } else {
-        console.error('Failed to create order');
+        console.error('Failed to add item to cart');
       }
     } catch (error) {
-      console.error('Error creating order:', error);
+      console.error('Error adding item to cart:', error);
     }
   };
-
+  
   const nextImage = () => {
     setActiveImageIndex(
-      (prevIndex) => (prevIndex + 1) % product.imageUrl.length
+      (prevIndex) => (prevIndex + 1) % product.productImage.length
     );
   };
 
   const prevImage = () => {
     setActiveImageIndex(
       (prevIndex) =>
-        (prevIndex - 1 + product.imageUrl.length) % product.imageUrl.length
+        (prevIndex - 1 + product.productImage.length) % product.productImage.length
     );
   };
-
-  if (error) {
-    console.error("Error creating order:", error);
-  }
 
   return (
     <ProductContainerStyled>
@@ -126,11 +118,11 @@ function ProductContainer({ product, addToCart }) {
       <MainImageContainer>
         <ImageSpinner>
           <SpinnerButton onClick={prevImage}>❮</SpinnerButton>
-          {product.imageUrl &&
-            product.imageUrl.map((url, index) => (
+          {product.productImage &&
+            product.productImage.map((url, index) => (
               <SpinnerImage 
                 $active={index === activeImageIndex} 
-                src={product.imageUrl ? `/images/${product.imageUrl[index]}` : 'default-image-url'} 
+                src={product.productImage ? `/images/${product.productImage[index]}` : 'default-image-url'} 
                 alt={product.name} 
                 key={index} 
               />

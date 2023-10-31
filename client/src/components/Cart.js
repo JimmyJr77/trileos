@@ -19,6 +19,7 @@ import {useQuery} from "@apollo/client"
 import { GET_USER_ORDER_HISTORY } from '../utils/queries';
 const Cart = () => {
   const { cartItems = [] } = useCart();
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 //const {loading, data} = useQuery(GET_USER_ORDER_HISTORY)
@@ -29,6 +30,10 @@ const Cart = () => {
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 =======
+  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);  
+>>>>>>> 3a39bfae6f993baf28a92523f30a7514d7861f1e
+=======
+
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);  
 >>>>>>> 3a39bfae6f993baf28a92523f30a7514d7861f1e
   const tax = subtotal * 0.07;

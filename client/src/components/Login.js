@@ -20,9 +20,10 @@ const Login = ({ setIsAuthenticated }) => {
       });
 
       if (data.login) {
-        // Handle successful login
         console.log('Login successful');
+        localStorage.setItem('id_token', data.login.token); // Store the token in local storage
         setIsAuthenticated(true); // Set user as authenticated
+        navigate('/apparel'); // Redirect to the main page or wherever you want
 
         // Use navigate to go to the "Apparel" page after successful login
         navigate('/login/success');

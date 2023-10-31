@@ -8,7 +8,9 @@ export const GET_PRODUCTS = gql`
       name
       description
       price
+      productImage
       variations {
+        _id
         size
         color
         stockCount
@@ -20,7 +22,7 @@ export const GET_PRODUCTS = gql`
 // Query to fetch user data (requires authentication)
 export const GET_USER_DATA = gql`
   query GetUserData {
-    getAdminUserData {
+    getUserData {
       _id
       email
       userName
@@ -41,31 +43,28 @@ export const GET_USERS = gql`
   }
 `;
 
+// Query to get the current user's order history (requires authentication)
 export const GET_USER_ORDER_HISTORY = gql`
   query GetUserOrderHistory {
-    getAdminUserData {
+    getUserOrderHistory {
       _id
-      email
-      userName
-      isAdmin
-      orders {
+      products {
         _id
-        products {
+        name
+        description
+        price
+        variations {
           _id
-          name
-          description
-          price
-          variations {
-            size
-            color
-            stockCount
-          }
+          size
+          color
+          stockCount
         }
       }
     }
   }
 `;
 
+// Query to fetch the current user's data (requires authentication)
 export const GET_CURRENT_USER_DATA = gql`
   query GetCurrentUserData {
     getCurrentUserData {

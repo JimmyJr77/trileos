@@ -11,14 +11,24 @@ const typeDefs = gql`
   }
 
   type ProductVariant {
+    _id: ID!
     size: String
     color: String
     stockCount: Int
   }
 
+  type OrderProduct {
+    product: Product
+    variant: ProductVariant
+    quantity: Int
+    price: Float
+  }
+
   type Order {
     _id: ID
-    products: [Product]
+    products: [OrderProduct]
+    totalPrice: Float
+    user: User
   }
 
   type User {
@@ -26,7 +36,7 @@ const typeDefs = gql`
     userName: String
     email: String
     orders: [Order]
-    isAdmin: Boolean  # isAdmin field indicates admin privileges
+    isAdmin: Boolean
   }
 
   input ProductInput {
@@ -39,13 +49,20 @@ const typeDefs = gql`
   }
 
   input ProductVariantInput {
+    _id: ID!
     size: String
     color: String
     stockCount: Int
   }
+  
+  input ProductOrderInput {
+    productId: ID!
+    variantId: ID!
+    quantity: Int!
+  }
 
   input OrderInput {
-    products: [ProductInput]
+    products: [ProductOrderInput]!
   }
 
   input UserInput {
@@ -61,8 +78,11 @@ const typeDefs = gql`
 
   type Query {
     getProducts: [Product]
-    getUsers: [User] # admin only
-    getAdminUserData: User # admin only
+    getUsers: [User] # Admin only
+    getAdminUserData: User # Admin only
+    getUserData: User # Authenticated user
+    getUserOrderHistory: [Order] # Authenticated user
+    getCurrentUserData: User # Authenticated user
   }
 
   type Mutation {

@@ -1,81 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
-import { ProductContainerStyled, ProductSelectionContainer, MainImageContainer, BoxContainer, SizeBox, ColorBox, ImageSpinner, SpinnerImage, SpinnerButton, QuantityBox, CartButton, ActionContainer } from '../styles/ProductContainerStyles';
-import { useMutation } from '@apollo/client';
-import { CREATE_ORDER } from '../utils/mutations';
+import {
+  ProductContainerStyled,
+  ProductSelectionContainer,
+  MainImageContainer,
+  BoxContainer,
+  SizeBox,
+  ColorBox,
+  ImageSpinner,
+  SpinnerImage,
+  SpinnerButton,
+  QuantityBox,
+  CartButton,
+  ActionContainer,
+} from '../styles/ProductContainerStyles';
 
 function ProductContainer({ product }) {
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const { addToCart } = useCart();
 
   useEffect(() => {
     if (product.variations && product.variations.length > 0) {
-      const uniqueSizes = [...new Set(product.variations.map(item => item.size))];
-      const uniqueColors = [...new Set(product.variations.map(item => item.color))];
-      setSelectedSize(uniqueSizes[0]);
-      setSelectedColor(uniqueColors[0]);
+      setSelectedVariant(product.variations[0]);
     }
   }, [product]);
 
-  const uniqueSizes = [...new Set(product.variations.map(item => item.size))];
-  const uniqueColors = [...new Set(product.variations.map(item => item.color))];
+  const handleAddToCart = () => {
+  if (!selectedVariant) {
+    alert('Please select a size and color');
+    return;
+  }
 
-  const [addToCartMutation, { error }] = useMutation(CREATE_ORDER);
+  const cartItem = {
+    productId: product._id,
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    productImage: product.productImage,
+    variantId: selectedVariant._id,
+    size: selectedVariant.size,
+    color: selectedVariant.color,
+    quantity: selectedQuantity,
 
-  const handleAddToCart = async () => {
-    if (!selectedSize || !selectedColor) {
-      alert('Please select a size and color');
-      return;
-    }
-
-    const cartItem = {
-      productId: product._id,
-      name: product.name,
-      description: product.description,
-      color: selectedColor,
-      size: selectedSize,
-      quantity: selectedQuantity,
-      price: product.price,
-      productImage: product.productImage, // Add productImage if available
-    };
-
-    try {
-      const { data } = await addToCartMutation({
-        variables: {
-          orderData: {
-            products: [
-              {
-                _id: cartItem.productId,
-                name: cartItem.name,
-                description: cartItem.description,
-                price: cartItem.price,
-                productImage: cartItem.productImage,
-                variations: [
-                  {
-                    size: cartItem.size,
-                    color: cartItem.color,
-                    stockCount: cartItem.quantity,
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      });
-
-      if (data.createOrder) {
-        console.log('Item added to cart:', data.createOrder);
-        addToCart(cartItem);
-      } else {
-        console.error('Failed to add item to cart');
-      }
-    } catch (error) {
-      console.error('Error adding item to cart:', error);
-    }
   };
+
+  addToCart(cartItem);
+};
 
   const nextImage = () => {
     setActiveImageIndex(
@@ -90,6 +62,22 @@ function ProductContainer({ product }) {
     );
   };
 
+  const handleVariantChange = (size, color) => {
+    const variant = product.variations.find(
+      (v) => v.size === size && v.color === color
+    );
+    if (variant) {
+      setSelectedVariant(variant);
+    }
+  };
+
+  const uniqueSizes = [
+    ...new Set(product.variations.map((item) => item.size)),
+  ];
+  const uniqueColors = [
+    ...new Set(product.variations.map((item) => item.color)),
+  ];
+
   return (
     <ProductContainerStyled>
       <ProductSelectionContainer>
@@ -101,8 +89,10 @@ function ProductContainer({ product }) {
           {uniqueSizes.map((size, index) => (
             <SizeBox
               key={index}
-              selected={selectedSize === size}
-              onClick={() => setSelectedSize(size)}
+              selected={selectedVariant?.size === size}
+              onClick={() =>
+                handleVariantChange(size, selectedVariant?.color)
+              }
             >
               {size}
             </SizeBox>
@@ -115,8 +105,10 @@ function ProductContainer({ product }) {
             <ColorBox
               key={index}
               color={color}
-              selected={selectedColor === color}
-              onClick={() => setSelectedColor(color)}
+              selected={selectedVariant?.color === color}
+              onClick={() =>
+                handleVariantChange(selectedVariant?.size, color)
+              }
             />
           ))}
         </BoxContainer>
@@ -140,7 +132,11 @@ function ProductContainer({ product }) {
             product.productImage.map((url, index) => (
               <SpinnerImage
                 $active={index === activeImageIndex}
-                src={product.productImage ? `/images/${product.productImage[index]}` : 'default-image-url'}
+                src={
+                  product.productImage
+                    ? `/images/${product.productImage[index]}`
+                    : 'default-image-url'
+                }
                 alt={product.name}
                 key={index}
               />

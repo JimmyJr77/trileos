@@ -56,6 +56,24 @@ const resolvers = {
         throw new Error('Failed to fetch users');
       }
     },
+    getUserData: async (_, __, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Not logged in');
+      }
+      return context.user;
+    },
+    getUserOrderHistory: async (_, __, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Not logged in');
+      }
+      return Order.find({ user: context.user._id }).populate('products.product');
+    },
+    getCurrentUserData: async (_, __, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('Not logged in');
+      }
+      return context.user;
+    },
   },
 
   Product: {
@@ -69,11 +87,25 @@ const resolvers = {
     products: async (parent) => {
       console.log('Resolving Order.products for Order ID:', parent._id);
       try {
-        // Retrieve and return the product data based on the `products` array in the Order model
-        const productIds = parent.products.map((product) => product.product._id);
-        const products = await Product.find({ _id: { $in: productIds } }).select('-__v');
-        console.log('Fetched Products for Order:', products);
-        return products;
+        const orderProducts = await Order.findById(parent._id)
+          .populate({
+            path: 'products.product',
+            select: '-__v',
+          })
+          .lean();
+  
+        const result = orderProducts.products.map((op) => {
+          const variant = op.product.variations.id(op.variant._id);
+          return {
+            product: op.product,
+            quantity: op.quantity,
+            variant,
+            price: op.price,
+          };
+        });
+  
+        console.log('Fetched Products for Order:', result);
+        return result;
       } catch (error) {
         console.error('Error in Order.products:', error);
         throw new Error('Failed to fetch order products');
@@ -118,53 +150,52 @@ const resolvers = {
         return { token, user };
       } catch (error) {
         console.error('Error in login:', error);
-        throw AuthenticationError('Failed to login');
+        throw new AuthenticationError('Failed to login');
       }
     },
 
     createOrder: async (_, { orderData }, context) => {
-      console.log('Resolving createOrder with orderData:', orderData);
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
-
+    
       try {
-        // Validate the product availability and gather product IDs
-        const productIds = orderData.products.map((product) => product._id);
-        const availableProducts = await Product.find({
-          _id: { $in: productIds },
-          'variations.stockCount': { $gte: 1 },
-        });
-
-        // Create the order
-        const order = await Order.create({ products: orderData.products });
-        console.log('Order Created:', order);
-        return order;
-      } catch (error) {
-        console.error('Error in createOrder:', error);
-        throw new Error('Failed to create order');
-      }
-    },
-
-    updateUser: async (_, { userId, userData }, context) => {
-      console.log('Resolving updateUser for userId:', userId, 'with userData:', userData);
-      if (!context.user) {
-        throw new AuthenticationError('You need to be logged in!');
-      }
-      if (context.user._id.toString() !== userId.toString()) {
-        throw new AuthenticationError('You can only update your own profile!');
-      }      
-
-      try {
-        const updatedUser = await User.findByIdAndUpdate(userId, { $set: userData }, { new: true, runValidators: true });
-        if (!updatedUser) {
-          throw new Error('User not found');
+        const productsToOrder = [];
+        let totalPrice = 0;
+    
+        for (const orderProduct of orderData.products) {
+          const product = await Product.findById(orderProduct.productId);
+          if (!product) {
+            throw new Error(`Product with ID ${orderProduct.productId} not found`);
+          }
+    
+          const variant = product.variations.id(orderProduct.variantId);
+          if (!variant) {
+            throw new Error(`Variant with ID ${orderProduct.variantId} not found in product ${product.name}`);
+          }
+    
+          if (variant.stockCount < orderProduct.quantity) {
+            throw new Error(`Not enough stock for product ${product.name}, variant ${variant.size} ${variant.color}`);
+          }
+    
+          variant.stockCount -= orderProduct.quantity;
+          totalPrice += product.price * orderProduct.quantity;
+          await product.save();
+    
+          productsToOrder.push({
+            product: product._id,
+            quantity: orderProduct.quantity,
+            variant: variant,
+            price: product.price * orderProduct.quantity,
+          });
         }
-        console.log('User Updated:', updatedUser);
-        return updatedUser;
+    
+        const order = await Order.create({ products: productsToOrder, totalPrice, user: context.user._id });
+        return order;
+    
       } catch (error) {
-        console.error('Error in updateUser:', error);
-        throw new Error('Failed to update user');
+        console.error('Error in createOrder:', error.message);
+        throw new Error(error.message || 'Failed to create order');
       }
     },
 

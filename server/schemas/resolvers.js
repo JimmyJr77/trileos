@@ -123,10 +123,11 @@ const resolvers = {
     },
 
     createOrder: async (_, { orderData }, context) => {
+
       console.log('Resolving createOrder with orderData:', orderData);
-      if (!context.user) {
-        throw new AuthenticationError('You need to be logged in!');
-      }
+      // if (!context.user) {
+      //   throw new AuthenticationError('You need to be logged in!');
+      // }
 
       try {
         // Validate the product availability and gather product IDs

@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 import { LOGIN } from '../utils/mutations';
 import { LoginContainer, LoginTitle, LoginForm, FormInput, SubmitButton, ErrorMessage } from '../styles/LoginStyles';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import Auth from "../utils/auth"
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
@@ -18,8 +19,8 @@ const Login = ({ setIsAuthenticated }) => {
       const { data } = await loginMutation({
         variables: { email, password },
       });
-
-      if (data.login) {
+      Auth.setToken(data.login.token)
+      if (data && data.login) {
         // Handle successful login
         console.log('Login successful');
         setIsAuthenticated(true); // Set user as authenticated

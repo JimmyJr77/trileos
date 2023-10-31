@@ -15,9 +15,16 @@ import {
   CartItemsContainer,
   CheckoutTitle
 } from '../styles/CartStyles';
-
+import {useQuery} from "@pollo/client"
+import { GET_USER_ORDER_HISTORY } from '../utils/queries';
 const Cart = () => {
   const { cartItems } = useCart() || {};
+
+//const {loading, data} = useQuery(GET_USER_ORDER_HISTORY)
+//const cartItems = data?.GetUserOrderHistory || []
+
+//cartItems.orders
+ 
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
   const tax = subtotal * 0.07;

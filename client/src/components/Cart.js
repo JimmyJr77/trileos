@@ -15,7 +15,7 @@ import {
   CartItemsContainer,
   CheckoutTitle
 } from '../styles/CartStyles';
-import {useQuery} from "@pollo/client"
+import {useQuery} from "@apollo/client"
 import { GET_USER_ORDER_HISTORY } from '../utils/queries';
 const Cart = () => {
   const { cartItems } = useCart() || {};

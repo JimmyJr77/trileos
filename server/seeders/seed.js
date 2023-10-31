@@ -1,7 +1,7 @@
 const db = require('../config/connection');
 const { User, Product } = require('../models');
-const userData = require('./user.json');
-const productsData = require('./products.json');
+const userData = require('./users');
+const productsData = require('./products');
 
 const bcrypt = require('bcrypt');
 

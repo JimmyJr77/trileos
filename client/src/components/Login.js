@@ -19,7 +19,8 @@ const Login = ({ setIsAuthenticated }) => {
         variables: { email, password },
       });
 
-      if (data.login) {
+      if (data && data.login) {
+
         console.log('Login successful');
         localStorage.setItem('id_token', data.login.token);
         setIsAuthenticated(true);

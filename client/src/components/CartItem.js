@@ -10,21 +10,19 @@ import {
   ItemSubTotal,
 } from '../styles/CartItemStyles';
 
-const CartItem = ({ cartItem }) => {
-  const { product, quantity } = cartItem;
-
+const CartItem = ({ item }) => {
   // Add a console log to identify what's received
-  console.log('Received cartItem:', cartItem);
+  console.log('Received item:', item);
 
   return (
     <CartItemContainer>
       <ItemDetails>
-        <ItemName>{product.name}</ItemName>
-        <ItemSize>Size: {product.size}</ItemSize>
-        <ItemColor>Color: {product.color}</ItemColor>
-        <UnitCost>Unit Cost: ${product.price}</UnitCost>
-        <Quantity>Quantity: {quantity}</Quantity>
-        <ItemSubTotal>Sub-total: ${product.price * quantity}</ItemSubTotal>
+        <ItemName>{item.name}</ItemName>
+        <ItemSize>Size: {item.size}</ItemSize>
+        <ItemColor>Color: {item.color}</ItemColor>
+        <UnitCost>Unit Cost: ${item.price}</UnitCost>
+        <Quantity>Quantity: {item.quantity}</Quantity>
+        <ItemSubTotal>Sub-total: ${(item.price * item.quantity).toFixed(2)}</ItemSubTotal>
       </ItemDetails>
     </CartItemContainer>
   );

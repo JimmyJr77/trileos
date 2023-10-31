@@ -1,4 +1,4 @@
-import decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 class AuthService {
   // Define the key used to store the token in local storage
@@ -8,7 +8,7 @@ class AuthService {
   getProfile() {
     const token = this.getToken();
     if (token) {
-      return decode(token);
+      return jwtDecode(token);
     }
     return null;
   }
@@ -22,7 +22,7 @@ class AuthService {
   // Check if token is expired
   isTokenExpired(token) {
     try {
-      const decoded = decode(token);
+      const decoded = jwtDecode(token);
       return decoded.exp < Date.now() / 1000;
     } catch (err) {
       console.error('Failed to decode token', err);
@@ -30,14 +30,16 @@ class AuthService {
     }
   }
 
-  // Get token from local storage
+  setToken(idToken) {
+    localStorage.setItem(this.tokenKey, idToken);
+  }
+
   getToken() {
     return localStorage.getItem(this.tokenKey);
   }
 
-  // Save token to local storage
-  setToken(idToken) {
-    localStorage.setItem(this.tokenKey, idToken);
+  logout() {
+    localStorage.removeItem(this.tokenKey);
   }
 
   // Remove token from local storage

@@ -151,9 +151,9 @@ const resolvers = {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
-      if (context.user._id.toString() !== userId) {
+      if (context.user._id.toString() !== userId.toString()) {
         throw new AuthenticationError('You can only update your own profile!');
-      }
+      }      
 
       try {
         const updatedUser = await User.findByIdAndUpdate(userId, { $set: userData }, { new: true, runValidators: true });

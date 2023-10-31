@@ -33,8 +33,9 @@ const adminUser = {
 module.exports = {
   authMiddleware: function ({ req }) {
     // Extract the token from the Authorization header
-    const authHeader = req.headers.authorization;
-    const token = authHeader ? authHeader.split(' ')[1] : undefined;
+    const authHeaderParts = authHeader ? authHeader.split(' ') : [];
+    const token = authHeaderParts.length === 2 ? authHeaderParts[1] : undefined;
+    
 
     // If no token is found, return the original request
     if (!token) {

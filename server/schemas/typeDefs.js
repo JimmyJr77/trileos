@@ -23,11 +23,8 @@ const typeDefs = gql`
 
   type User {
     _id: ID
-    firstName: String
-    lastName: String
-    email: String
     userName: String
-    phoneNumber: String
+    email: String
     orders: [Order]
     isAdmin: Boolean  # isAdmin field indicates admin privileges
   }
@@ -53,11 +50,8 @@ const typeDefs = gql`
 
   input UserInput {
     _id: ID
-    firstName: String
-    lastName: String
-    email: String
     userName: String
-    phoneNumber: String
+    email: String
   }
 
   type Auth {

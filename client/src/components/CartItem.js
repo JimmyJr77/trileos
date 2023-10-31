@@ -11,7 +11,7 @@ import {
 } from '../styles/CartItemStyles';
 
 const CartItem = ({ cartItem }) => {
-  const { product, price, quantity } = cartItem;
+  const { product, quantity } = cartItem;
 
   // Add a console log to identify what's received
   console.log('Received cartItem:', cartItem);
@@ -22,13 +22,12 @@ const CartItem = ({ cartItem }) => {
         <ItemName>{product.name}</ItemName>
         <ItemSize>Size: {product.size}</ItemSize>
         <ItemColor>Color: {product.color}</ItemColor>
-        <UnitCost>Unit Cost: ${price}</UnitCost>
+        <UnitCost>Unit Cost: ${product.price}</UnitCost>
         <Quantity>Quantity: {quantity}</Quantity>
-        <ItemSubTotal>Sub-total: ${price * quantity}</ItemSubTotal>
+        <ItemSubTotal>Sub-total: ${product.price * quantity}</ItemSubTotal>
       </ItemDetails>
     </CartItemContainer>
   );
 };
 
 export default CartItem;
-

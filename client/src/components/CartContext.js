@@ -7,8 +7,12 @@ export const CartProvider = ({ children }) => {
   const [notification, setNotification] = useState('');
 
   const addToCart = (item) => {
+    if (!item || !item.productId || !item.variantId || !item.name || !item.size || !item.color || item.price === undefined || item.quantity <= 0) {
+      console.error('Invalid item added to cart', item);
+      return;
+    }
     setCartItems((prevItems) => [...prevItems, item]);
-    setNotification(`${item.quantity} x ${item.product.name} added to cart`);
+    setNotification(`${item.quantity} x ${item.name} added to cart`);
     setTimeout(() => setNotification(''), 3000); // Hide notification after 3s
   };
 
@@ -28,4 +32,3 @@ export const useCart = () => {
 
   return context;
 };
-

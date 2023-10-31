@@ -1,3 +1,5 @@
+// src/utils/auth.js
+
 import { jwtDecode } from 'jwt-decode';
 
 class AuthService {
@@ -39,11 +41,6 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem(this.tokenKey);
-  }
-
-  // Remove token from local storage
-  removeToken() {
     localStorage.removeItem(this.tokenKey);
   }
 

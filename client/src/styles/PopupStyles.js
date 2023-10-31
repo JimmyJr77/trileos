@@ -34,3 +34,4 @@ export const PopupCloseButton = styled.button`
   margin-left: 20px;
 `;
 
+ 

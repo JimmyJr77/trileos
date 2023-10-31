@@ -73,4 +73,4 @@ export const Image = styled.img`
         transform: translateX(-50%);
         margin-right: 0;
     }
-`;
+`; 

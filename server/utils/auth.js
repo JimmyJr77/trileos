@@ -2,6 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 const secret = process.env.JWT_SECRET || 'SUPER SECRET SECRET';
 const expiration = process.env.JWT_EXPIRES_IN || '1h';
 

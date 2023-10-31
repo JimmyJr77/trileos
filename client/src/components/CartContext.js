@@ -1,9 +1,39 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+const CartProvider = ({ children, authService }) => {
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      // Initialize cart from localStorage
+      const guestToken = authService.getGuestToken();
+      let items;
+      if (guestToken) {
+        items = JSON.parse(localStorage.getItem(`cart_${guestToken}`));
+      } else if (authService.loggedIn()) {
+        const user = authService.getProfile();
+        items = JSON.parse(localStorage.getItem(`cart_${user._id}`));
+      }
+      if (Array.isArray(items)) {
+        console.log('Loaded from localStorage:', items);
+        return items;
+      }
+    } catch (err) {
+      console.error('Error loading cart from localStorage:', err);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    // Save cart to localStorage on change
+    if (cartItems.length > 0) {
+      const user = authService.getProfile();
+      const token = user ? user._id : authService.getGuestToken() || 'guest';
+      localStorage.setItem(`cart_${token}`, JSON.stringify(cartItems));
+    }
+  }, [cartItems, authService]);
+  
+
   const [notification, setNotification] = useState('');
 
   const addToCart = (item) => {
@@ -32,3 +62,5 @@ export const useCart = () => {
 
   return context;
 };
+
+export { CartProvider };

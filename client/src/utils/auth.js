@@ -35,16 +35,14 @@ class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  // Save token to local storage and reload page to reflect changes
-  login(idToken) {
+  // Save token to local storage
+  setToken(idToken) {
     localStorage.setItem(this.tokenKey, idToken);
-    this.navigateToHomePage();
   }
 
-  // Clear token from local storage and reload page to reset state
-  logout() {
+  // Remove token from local storage
+  removeToken() {
     localStorage.removeItem(this.tokenKey);
-    this.navigateToHomePage();
   }
 
   // Helper method to navigate to home page
@@ -53,6 +51,5 @@ class AuthService {
   }
 }
 
-// export default new AuthService();
 const authService = new AuthService();
 export default authService;

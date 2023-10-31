@@ -7,38 +7,23 @@ const Order = require('./Order');
 const userSchema = new Schema({
   userName: {
     type: String,
-    required: false, // Not required for guest users
-    trim: true,
-  },
-  firstName: {
-    type: String,
-    required: false, // Not required for guest users
-    trim: true,
-  },
-  lastName: {
-    type: String,
-    required: false, // Not required for guest users
+    required: true, // Required based on JSON
     trim: true,
   },
   email: {
     type: String,
-    required: true, // Always required
+    required: true, // Required based on JSON
     unique: true,
     match: [/.+@.+\..+/, 'Must match an email address!'],
   },
   password: {
     type: String,
-    required: false, // Not required for guest users
+    required: true, // Required based on JSON
     minlength: 5,
-  },
-  phoneNumber: {
-    type: String,
-    required: false, // Optional
-    trim: true,
   },
   isAdmin: {
     type: Boolean,
-    required: false, // Not sure how this is connected yet and it's only really important if someone IS an admin.
+    required: true, // Required based on JSON
   },
   // Reference to Order by ID instead of embedding
   orders: [{
@@ -74,4 +59,3 @@ userSchema.methods.isCorrectPassword = async function (password) {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-

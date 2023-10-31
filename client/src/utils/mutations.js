@@ -1,71 +1,82 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
-export const LOGIN_USER = gql`
+// Mutation to add a new user
+export const ADD_USER = gql`
+  mutation AddUser($userData: UserInput!) {
+    addUser(userData: $userData) {
+      token
+      user {
+        _id
+        email
+        userName
+        isAdmin
+      }
+    }
+  }
+`;
+
+// Mutation to log in
+export const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
       user {
         _id
-        username
         email
+        userName
+        isAdmin
       }
     }
   }
 `;
 
-export const ADD_USER = gql`
-  mutation AddUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, email: $email, password: $password) {
-      token
-      user {
-        _id
-        username
-        email
-      }
-    }
-  }
-`;
-
-export const UPDATE_USER = gql`
-  mutation UpdateUser($userId: ID!, $username: String, $email: String) {
-    updateUser(userId: $userId, username: $username, email: $email) {
-      _id
-      username
-      email
-    }
-  }
-`;
-
+// Mutation to create a new order (requires authentication)
 export const CREATE_ORDER = gql`
   mutation CreateOrder($orderData: OrderInput!) {
     createOrder(orderData: $orderData) {
       _id
-      email
       products {
         _id
         name
+        description
         price
-        size
-        quantity
-        color
+        variations {
+          size
+          color
+          stockCount
+        }
       }
     }
   }
 `;
 
-export const UPDATE_ORDER = gql`
-  mutation UpdateOrder($orderId: ID!, $orderData: OrderInput!) {
-    updateOrder(orderId: $orderId, orderData: $orderData) {
+// Mutation to update user information (requires authentication)
+export const UPDATE_USER = gql`
+  mutation UpdateUser($userId: ID!, $userData: UserInput!) {
+    updateUser(userId: $userId, userData: $userData) {
       _id
       email
-      products {
-        _id
-        name
-        price
+      userName
+      isAdmin
+    }
+  }
+`;
+
+// Mutation to update product information (requires admin privileges)
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($productId: ID!, $productData: ProductInput!) {
+    updateProduct(productId: $productId, productData: $productData) {
+      _id
+      name
+      description
+      price
+      variations {
         size
-        quantity
         color
+        stockCount
       }
     }
   }
 `;
+
+

@@ -16,6 +16,7 @@ import {
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
+
 import { setContext } from '@apollo/client/link/context';
 
 // Create a context for cart items and popup

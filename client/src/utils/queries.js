@@ -1,62 +1,67 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_ME = gql`
-  query GetUser {
-    getUser {
+// Query to fetch all products
+export const GET_PRODUCTS = gql`
+  query GetProducts {
+    getProducts {
       _id
-      username
+      name
+      description
+      price
+      variations {
+        size
+        color
+        stockCount
+      }
+    }
+  }
+`;
+
+// Query to fetch user data (requires authentication)
+export const GET_USER_DATA = gql`
+  query GetUserData {
+    getAdminUserData {
+      _id
       email
+      userName
+      isAdmin
+    }
+  }
+`;
+
+// Query to fetch all users (requires admin privileges)
+export const GET_USERS = gql`
+  query GetUsers {
+    getUsers {
+      _id
+      email
+      userName
+      isAdmin
+    }
+  }
+`;
+
+export const GET_USER_ORDER_HISTORY = gql`
+  query GetUserOrderHistory {
+    getAdminUserData {
+      _id
+      email
+      userName
+      isAdmin
       orders {
         _id
         products {
           _id
           name
+          description
           price
-          quantity
           variations {
             size
             color
+            stockCount
           }
         }
       }
     }
   }
 `;
-
-// Get individual products
-export const QUERY_PRODUCT = gql`
-  query getProduct($productId: ID!) {
-    getProduct(productId: $productId) {
-      _id
-      name
-      description
-      price
-      imageUrl
-      variations {
-        size
-        stockCount
-        color
-      }
-    }
-  }
-`;
-
-
-// Get all products
-export const QUERY_PRODUCTS = gql`
-  query getProducts {
-    getProducts {
-      _id
-      name
-      description
-      price
-      imageUrl
-      variations {
-        size
-        stockCount
-        color
-      }
-    }
-  }
-`;
-

@@ -6,7 +6,7 @@ const typeDefs = gql`
     name: String
     description: String
     price: Float
-    imageUrl: [String]
+    productImage: [String]
     variations: [ProductVariant]
   }
 
@@ -18,27 +18,7 @@ const typeDefs = gql`
 
   type Order {
     _id: ID
-    purchaseDate: String
     products: [Product]
-  }
-
-  input ProductInput {
-    _id: ID
-    name: String
-    description: String
-    price: Float
-    imageUrl: [String]
-    variations: [ProductVariantInput]
-  }
-
-  input ProductVariantInput {
-    size: String
-    color: String
-    stockCount: Int
-  }
-
-  input OrderInput {
-    products: [ProductInput]
   }
 
   type User {
@@ -50,6 +30,25 @@ const typeDefs = gql`
     phoneNumber: String
     orders: [Order]
     isAdmin: Boolean  # isAdmin field indicates admin privileges
+  }
+
+  input ProductInput {
+    _id: ID
+    name: String
+    description: String
+    price: Float
+    productImage: [String]
+    variations: [ProductVariantInput]
+  }
+
+  input ProductVariantInput {
+    size: String
+    color: String
+    stockCount: Int
+  }
+
+  input OrderInput {
+    products: [ProductInput]
   }
 
   input UserInput {

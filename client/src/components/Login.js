@@ -19,7 +19,7 @@ const Login = ({ setIsAuthenticated }) => {
         variables: { email, password },
       });
 
-      if (data.login) {
+      if (data && data.login) {
         // Handle successful login
         console.log('Login successful');
         setIsAuthenticated(true); // Set user as authenticated

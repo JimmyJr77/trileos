@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.31d6cfe0.css",
+    "main.js": "/static/js/main.79b22651.js",
+    "static/media/3lions_crest.png": "/static/media/3lions_crest.b9b93304f31349ae11ae.png",
+    "static/media/3lions_heads_dark.png": "/static/media/3lions_heads_dark.ffa45052e56ba44e1b42.png",
+    "index.html": "/index.html",
+    "main.79b22651.js.map": "/static/js/main.79b22651.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31d6cfe0.css",
+    "static/js/main.79b22651.js"
+  ]
+}

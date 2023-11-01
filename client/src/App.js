@@ -10,8 +10,8 @@ import Cart from './components/Cart';
 import { PopupContainer, PopupMessage, PopupCloseButton } from './styles/PopupStyles';
 import Login from './components/Login';
 import authService from './utils/auth';
-import MyOrders from './components/MyOrders';
-import { jwtDecode } from 'jwt-decode';
+// import MyOrders from './components/MyOrders';
+// import { jwtDecode } from 'jwt-decode';
 
 import {
   ApolloClient,
@@ -53,7 +53,7 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [popup, setPopup] = useState(null);
   // const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('id_token')); // Check if user is logged in
-  const [loggedIn, setLoggedIn] = useState(authService.loggedIn()); // Set based on authService
+  // const [loggedIn, setLoggedIn] = useState(authService.loggedIn()); // Set based on authService
 
   const addToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);

@@ -15,8 +15,15 @@ import {
   CartItemsContainer
 } from '../styles/CartStyles';
 
+<<<<<<< Updated upstream
 const Cart = ({ cartItems }) => {
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+=======
+const Cart = () => {
+  const { cartItems = [] } = useCart();
+
+  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+>>>>>>> Stashed changes
   const tax = subtotal * 0.07;
   const estimatedShipping = 5;
   const total = subtotal + tax + estimatedShipping;
@@ -26,10 +33,11 @@ const Cart = ({ cartItems }) => {
       <CartTitle>Shopping Cart</CartTitle>
       <CartContainerStyled>
         <CartItemsContainer>
-          {cartItems.map((item, index) => (
-            <CartItem key={index} item={item} />
-          ))}
+          {cartItems.map}((item)) ={'>'} (
+            <CartItem key={item.id} item={item} />
+          )
         </CartItemsContainer>
+<<<<<<< Updated upstream
           <SubTotalsContainer>
             <CheckoutDetailsBox>
               <CheckoutTitle>Checkout Details</CheckoutTitle>
@@ -47,9 +55,19 @@ const Cart = ({ cartItems }) => {
               <CheckoutButton>Checkout</CheckoutButton>
             </CheckoutDetailsBox>
           </SubTotalsContainer>
+=======
+        <SubTotalsContainer>
+          <CheckoutDetails cartItems={cartItems} subtotal={subtotal} tax={tax} estimatedShipping={estimatedShipping} total={total} />
+        </SubTotalsContainer>
+>>>>>>> Stashed changes
       </CartContainerStyled>
     </CartContainer>
   );
 };
+<<<<<<< Updated upstream
 
 export default Cart;
+=======
+export default Cart;
+ 
+>>>>>>> Stashed changes

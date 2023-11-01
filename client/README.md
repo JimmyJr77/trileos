@@ -52,4 +52,8 @@ Please refer to the [Contribution Guidelines](CONTRIBUTING.md) for more details.
 
 ## License
 
+<<<<<<< HEAD
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+=======
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+>>>>>>> 3a39bfae6f993baf28a92523f30a7514d7861f1e

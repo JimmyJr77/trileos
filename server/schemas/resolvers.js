@@ -155,10 +155,25 @@ const resolvers = {
     },
 
     createOrder: async (_, { orderData }, context) => {
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+      console.log('Resolving createOrder with orderData:', orderData);
+      // if (!context.user) {
+      //   throw new AuthenticationError('You need to be logged in!');
+      // }
+
+=======
+=======
+>>>>>>> 3a39bfae6f993baf28a92523f30a7514d7861f1e
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
     
+<<<<<<< HEAD
+>>>>>>> 3a39bfae6f993baf28a92523f30a7514d7861f1e
+=======
+>>>>>>> 3a39bfae6f993baf28a92523f30a7514d7861f1e
       try {
         const productsToOrder = [];
         let totalPrice = 0;

@@ -91,4 +91,4 @@ export const CheckoutContainer = styled.div`
   padding: 20px;
   border: 1px solid black;
   text-align: center;
-`;
+`; 

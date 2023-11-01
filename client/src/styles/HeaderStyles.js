@@ -72,4 +72,4 @@ export const CartCount = styled.span`
   padding: 0.25em 0.5em;
   margin-left: 0.5em;
   font-weight: bold;
-`;
+`; 

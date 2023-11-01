@@ -9,3 +9,4 @@ export const ApparelContainer = styled.div`
 export const ApparelTitle = styled.h1`
     margin-top: 60px;
 `;
+ 

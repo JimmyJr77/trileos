@@ -23,4 +23,4 @@ function Apparel({ addToCart }) {
   );
 }
 export default Apparel;
-
+ 

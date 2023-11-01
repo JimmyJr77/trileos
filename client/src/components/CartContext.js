@@ -1,19 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import authService from '../utils/auth';
 
 const CartContext = createContext();
 
-const CartProvider = ({ children, authService }) => {
+const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(() => {
     try {
       // Initialize cart from localStorage
-      const guestToken = authService.getGuestToken();
-      let items;
-      if (guestToken) {
-        items = JSON.parse(localStorage.getItem(`cart_${guestToken}`));
-      } else if (authService.loggedIn()) {
-        const user = authService.getProfile();
-        items = JSON.parse(localStorage.getItem(`cart_${user._id}`));
-      }
+      const token = authService.loggedIn() ? authService.getProfile()._id : authService.getGuestToken() || 'guest';
+      const items = JSON.parse(localStorage.getItem(`cart_${token}`));
       if (Array.isArray(items)) {
         console.log('Loaded from localStorage:', items);
         return items;
@@ -26,12 +21,9 @@ const CartProvider = ({ children, authService }) => {
 
   useEffect(() => {
     // Save cart to localStorage on change
-    if (cartItems.length > 0) {
-      const user = authService.getProfile();
-      const token = user ? user._id : authService.getGuestToken() || 'guest';
-      localStorage.setItem(`cart_${token}`, JSON.stringify(cartItems));
-    }
-  }, [cartItems, authService]);
+    const token = authService.loggedIn() ? authService.getProfile()._id : authService.getGuestToken() || 'guest';
+    localStorage.setItem(`cart_${token}`, JSON.stringify(cartItems));
+  }, [cartItems]);
   
 
   const [notification, setNotification] = useState('');

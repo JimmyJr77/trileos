@@ -48,4 +48,4 @@ db.once('open', async () => {
 //     console.error('Error seeding users and products', error);
 //     process.exit(1);
 //   }
-// });
+// }); 

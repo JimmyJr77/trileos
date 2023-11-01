@@ -137,3 +137,4 @@ export const SpinnerImage = styled.img`
   transition: opacity 0.5s;
 `;
 
+ 

@@ -36,3 +36,4 @@ export const Quantity = styled.p`
 export const ItemSubTotal = styled.p`
   /* Style for item sub-total */
 `;
+ 

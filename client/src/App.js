@@ -30,7 +30,7 @@ export const useCart = () => useContext(CartContext);
 
 // Define the http link for Apollo Client
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_GRAPHQL_URI || '/graphql',
+  uri: (process.env.NODE_ENV === 'production')? '/graphql' : 'http://localhost:3001/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

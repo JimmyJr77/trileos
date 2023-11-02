@@ -29,12 +29,12 @@ To use Trileos, you don't need to install any software. You only need a modern w
 
 ### Demo
 
-You can access the live demo of Trileos by visiting [Trileos Online Store](*INSERT HEROKU LINK HERE*). Feel free to explore the application, add products to your cart, and experience the checkout process.
+You can access the live demo of Trileos by visiting [Trileos Online Store](https://trileos-a2f4c74c92f2.herokuapp.com/). Feel free to explore the application, add products to your cart, and experience the checkout process.
 
 ## Usage
 
 1. Open your preferred web browser.
-2. Visit [Trileos Online Store](*INSERT HEROKU LINK HERE*).
+2. Visit [Trileos Online Store](https://trileos-a2f4c74c92f2.herokuapp.com/).
 3. Explore the product catalog, add items to your cart, and complete the checkout process.
 4. If you want to create an account, click the "Sign Up" link, or log in if you already have an account.
 
@@ -47,8 +47,6 @@ We welcome contributions from the community! If you'd like to contribute to the 
 3. Make your changes and commit them with descriptive messages.
 4. Push your changes to your fork.
 5. Create a pull request to the main repository.
-
-Please refer to the [Contribution Guidelines](CONTRIBUTING.md) for more details.
 
 ## License
 
